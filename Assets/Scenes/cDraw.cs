@@ -10,7 +10,7 @@ public class cDraw : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
