@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cGV
+public abstract class cGV
 {
-    
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         

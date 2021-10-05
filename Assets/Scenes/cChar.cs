@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cChar : MonoBehaviour
-{
-    
-    void Start()
-    {
-        
-    }
+public class cChar : MonoBehaviour {
+    GameObject cGameObject;
+    int vDirection;
+    int vAnimationIndex;
+    int vLifePoint;
+    float vRunSpeed;
+    float vJumpSpeed;
 
-    
-    void Update()
-    {
-        
-    }
+    public float VRunSpeed { get => vRunSpeed; set => vRunSpeed = value; }
 }
