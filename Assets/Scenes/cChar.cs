@@ -47,7 +47,6 @@ public class cChar : MonoBehaviour {
     public const int MAX_ANIMATION_STATE_NUM = 6;
     public string[] vAnimationName;
 
-
     //public float VRunSpeed { get => vRunSpeed; set => vRunSpeed = value; } //get set 학습 필요
 
 }

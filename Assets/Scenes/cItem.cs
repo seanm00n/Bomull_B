@@ -31,4 +31,5 @@ public class cItem : MonoBehaviour
     public const int ITEM_04 = 3;
     public const int MAX_ITEM_NUM = 4;
     public string[] vItemName;
+
 }
