@@ -55,16 +55,32 @@ public class cInit : MonoBehaviour
                 return false;
             }
             cChar.I.sCharacter[index01].cRigidbody = null;
-            cChar.I.sCharacter[index01].cCollider = null;
+            cChar.I.sCharacter[index01].cRigidbody = cChar.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
+            if (cChar.I.sCharacter[index01].cRigidbody == null) {
+                cGV.I.QuitProcess("Error::Rigidbody is null");
+                return false;
+            }
+            //cChar.I.sCharacter[index01].cCollider = null;
+            //cChar.I.sCharacter[index01].cCollider = new BoxCollider2D[];
             cChar.I.sCharacter[index01].cSpriteRenderer = null;
+            cChar.I.sCharacter[index01].cSpriteRenderer = cChar.I.sCharacter[index01].cGameObject.GetComponent<SpriteRenderer>();
+            if (cChar.I.sCharacter[index01].cSpriteRenderer == null) {
+                cGV.I.QuitProcess("Error::SpriteRenderer is null");
+                return false;
+            }
             cChar.I.sCharacter[index01].cAnimator = null;
+            cChar.I.sCharacter[index01].cAnimator = cChar.I.sCharacter[index01].cGameObject.GetComponent<Animator>();
+            if (cChar.I.sCharacter[index01].cAnimator == null) {
+                cGV.I.QuitProcess("Error::Animator is null");
+                return false;
+            }
             cChar.I.sCharacter[index01].vDirection = 0;
             cChar.I.sCharacter[index01].vAnimationIndex = 0;
             cChar.I.sCharacter[index01].vLifePoint = 0;
             cChar.I.sCharacter[index01].vRunSpeed = 0.0f;
             cChar.I.sCharacter[index01].vJumpSpeed = 0.0f;
             cChar.I.sCharacter[index01].vX = 0.0f;
-            cChar.I.sCharacter[index01].vY = 0.0f;//10/16(수)작업중단점
+            cChar.I.sCharacter[index01].vY = 0.0f;
         }
         return true;
     }
