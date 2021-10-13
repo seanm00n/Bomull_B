@@ -13,6 +13,9 @@ public class cInit : MonoBehaviour
         }
     }
     public bool Initialize() {
+        cGV.I.vApplicationState = 0;
+        cGV.I.vCheckApplicationState = null;
+        cGV.I.vCheckApplicationState = new bool[cGV.MAX_APPLICATION_STATE_NUM];
         return true;
     }
     public bool Initialize_Character() {
@@ -88,34 +91,44 @@ public class cInit : MonoBehaviour
         return true;
     }
     public bool Initialize_Main() {
+        cGV.I.vApplicationState = cGV.APPLICATION_STATE_MAIN;
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_MAIN] = true;
         return true;
     }
     public void Destroy_Main() {
-
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_MAIN] = false;
     }
     public bool Initialize_CharacterSelect() {
+        cGV.I.vApplicationState = cGV.APPLICATION_STATE_CHSL;
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_CHSL] = true;
         return true;
     }
     public void Destroy_Character_Select() {
-
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_CHSL] = false;
     }
     public bool Initialize_Game() {
+        cGV.I.vApplicationState = cGV.APPLICATION_STATE_GAME;
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAME] = true;
         return true;
     }
     public void Destroy_Game() {
-
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAME] = false;
     }
     public bool Initialize_GameOver() {
+        cGV.I.vApplicationState = cGV.APPLICATION_STATE_GAOV;
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAOV] = true;
         return true;
     }
     public void Destroy_GameOver() {
-
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAOV] = false;
     }
     public bool Initialize_Pause() {
+        cGV.I.vApplicationState = cGV.APPLICATION_STATE_PAUS;
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_PAUS] = true;
         return true;
     }
     public void Destroy_Pause() {
-
+        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_PAUS] = false;
     }
     void Awake() {
         getInit = null;
@@ -125,7 +138,6 @@ public class cInit : MonoBehaviour
             return;
         }
         Application.targetFrameRate = cGV.vFPS;
-
         Initialize();
     }
 }

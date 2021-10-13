@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class cLogic : MonoBehaviour
 {
-    
-    void Start()
+    static private cLogic getLogic;
+    static public cLogic I
     {
-        
+        get
+        {
+            if (getLogic == null)
+                return null;
+            return getLogic;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public bool GameLogic()
     {
-        
+        Debug.Log("This is Game Logic");
+/*        if (asdf)
+        {
+            cInit.I.Destroy_Game();
+        }*/
+        return true;
     }
 }

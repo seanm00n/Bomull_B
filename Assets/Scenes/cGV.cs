@@ -27,6 +27,7 @@ public class cGV
     public const int APPLICATION_STATE_GAOV = 4;
     public const int MAX_APPLICATION_STATE_NUM = 5;
     public int vApplicationState;
+    public bool[] vCheckApplicationState;
 
     public void QuitProcess(string tstring) {
         #if UNITY_EDITOR
