@@ -19,7 +19,7 @@ public class cChar : MonoBehaviour {
     public struct CHARACTER {
         public GameObject cGameObject;
         public Rigidbody2D cRigidbody;
-        //public BoxCollider2D cCollider;
+        public BoxCollider2D cCollider;
         public SpriteRenderer cSpriteRenderer;
         public Animator cAnimator;
         public int vDirection;
@@ -32,10 +32,8 @@ public class cChar : MonoBehaviour {
     }
     public CHARACTER[] sCharacter;
 
-    public const int CHARACTER_01 = 0;
-    public const int CHARACTER_02 = 1;
-    public const int CHARACTER_03 = 2;
-    public const int MAX_CHARACTER_NUM = 3;
+    public const int CHARACTER_MAN = 0;
+    public const int MAX_CHARACTER_NUM = 1;
     public string[] vCharacterName;
 
     public const int ANIMATION_STATE_IDLE = 0;

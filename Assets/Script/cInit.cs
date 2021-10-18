@@ -22,8 +22,8 @@ public class cInit : MonoBehaviour
         int index01;
         cChar.I.vCharacterName = null;
         cChar.I.vCharacterName = new string[cChar.MAX_CHARACTER_NUM];
+        cChar.I.vCharacterName[cChar.CHARACTER_MAN] = "Character";
         for (index01 = 0; index01 < cChar.MAX_CHARACTER_NUM; index01++) {
-            cChar.I.vCharacterName[index01] = "Character0" + (index01 + 1);
             if (cChar.I.vCharacterName[index01] == null) {
                 cGV.I.QuitProcess("Error::CharacterName is null");
                 return false;
@@ -63,8 +63,13 @@ public class cInit : MonoBehaviour
                 cGV.I.QuitProcess("Error::Rigidbody is null");
                 return false;
             }
-            //cChar.I.sCharacter[index01].cCollider = null;
-            //cChar.I.sCharacter[index01].cCollider = new BoxCollider2D[];
+            cChar.I.sCharacter[index01].cCollider = null;
+            cChar.I.sCharacter[index01].cCollider = cChar.I.sCharacter[index01].cGameObject.GetComponent<BoxCollider2D>();
+            if (cChar.I.sCharacter[index01].cCollider == null) {
+                cGV.I.QuitProcess("Error::Collider is null");
+                return false;
+            }
+
             cChar.I.sCharacter[index01].cSpriteRenderer = null;
             cChar.I.sCharacter[index01].cSpriteRenderer = cChar.I.sCharacter[index01].cGameObject.GetComponent<SpriteRenderer>();
             if (cChar.I.sCharacter[index01].cSpriteRenderer == null) {
