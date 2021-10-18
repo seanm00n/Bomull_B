@@ -15,7 +15,7 @@ public class cItem : MonoBehaviour
     public struct ITEM {
         public GameObject cGameObject;
         public Rigidbody2D cRigidbody;
-        //public BoxCollider2D cCollider; //cCollider  이후 추가
+        public BoxCollider2D cCollider; //cIC, cInit.Initialize_Item() 수정
         public SpriteRenderer cSpriteRenderer;
         public int vPoint;
         public float vFallSpeed;

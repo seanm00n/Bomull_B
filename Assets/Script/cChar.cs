@@ -19,7 +19,7 @@ public class cChar : MonoBehaviour {
     public struct CHARACTER {
         public GameObject cGameObject;
         public Rigidbody2D cRigidbody;
-        public BoxCollider2D cCollider;
+        public BoxCollider2D cCollider; //cCC, cInit.Initialize_Character() 수정
         public SpriteRenderer cSpriteRenderer;
         public Animator cAnimator;
         public int vDirection;

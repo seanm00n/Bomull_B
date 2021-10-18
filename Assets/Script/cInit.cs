@@ -66,7 +66,7 @@ public class cInit : MonoBehaviour
             cChar.I.sCharacter[index01].cCollider = null;
             cChar.I.sCharacter[index01].cCollider = cChar.I.sCharacter[index01].cGameObject.GetComponent<BoxCollider2D>();
             if (cChar.I.sCharacter[index01].cCollider == null) {
-                cGV.I.QuitProcess("Error::Collider is null");
+                cGV.I.QuitProcess("Error::Collider is null"); 
                 return false;
             }
 
