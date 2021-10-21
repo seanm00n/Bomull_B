@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class cInit : MonoBehaviour
-{
+public class cInit : MonoBehaviour{
     static private cInit getInit;
     static public cInit I {
         get {
@@ -144,77 +143,79 @@ public class cInit : MonoBehaviour
     }
     public bool Initialize_Character() {
         int index01;
-        //cChar.I.vCharacterName = null;
-        cChar.I.vCharacterName = new string[cChar.MAX_CHARACTER_NUM];
-        cChar.I.vCharacterName[cChar.CHARACTER_MAN] = "Character";
-        for (index01 = 0; index01 < cChar.MAX_CHARACTER_NUM; index01++) {
-            if (cChar.I.vCharacterName[index01] == null) {
+        
+        cGV.I.vCharacterName = null;
+        cGV.I.vCharacterName = new string[cGV.MAX_CHARACTER_NUM];
+        cGV.I.vCharacterName[cGV.CHARACTER_MAN] = "Character";
+        
+        for (index01 = 0; index01 < cGV.MAX_CHARACTER_NUM; index01++) {
+            if (cGV.I.vCharacterName[index01] == null) {
                 cGV.I.QuitProcess("Error::CharacterName is null");
                 return false;
             }
         }
 
-        cChar.I.vAnimationName = null;
-        cChar.I.vAnimationName = new string[cChar.MAX_ANIMATION_STATE_NUM];
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_IDLE] = "Idle";
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_RUN] = "Run";
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_JUMP] = "Jump";
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_FALL] = "Fall";
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_HIT] = "Hit";
-        cChar.I.vAnimationName[cChar.ANIMATION_STATE_DIE] = "Die";
-        for (index01 = 0; index01 < cChar.MAX_ANIMATION_STATE_NUM; index01++) {
-            if (cChar.I.vAnimationName[index01] == null) {
+        cGV.I.vAnimationName = null;
+        cGV.I.vAnimationName = new string[cGV.MAX_ANIMATION_STATE_NUM];
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_IDLE] = "Idle";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_RUN] = "Run";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_JUMP] = "Jump";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_FALL] = "Fall";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_HIT] = "Hit";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_DIE] = "Die";
+        for (index01 = 0; index01 < cGV.MAX_ANIMATION_STATE_NUM; index01++) {
+            if (cGV.I.vAnimationName[index01] == null) {
                 cGV.I.QuitProcess("Error::AnimationName is null");
                 return false;
             }
         }
-        cChar.I.sCharacter = null;
-        cChar.I.sCharacter = new cChar.CHARACTER[cChar.MAX_CHARACTER_NUM];
-        if (cChar.I.sCharacter == null) {
+        cGV.I.sCharacter = null;
+        cGV.I.sCharacter = new cGV.CHARACTER[cGV.MAX_CHARACTER_NUM];
+        if (cGV.I.sCharacter == null) {
             cGV.I.QuitProcess("Error::Character Struct is null");
             return false;
         }
-        for(index01 = 0; index01 < cChar.MAX_CHARACTER_NUM; index01++) {
-            cChar.I.sCharacter[index01].cGameObject = null;
-            cChar.I.sCharacter[index01].cGameObject = GameObject.Find(cChar.I.vCharacterName[index01]);
-            if (cChar.I.sCharacter[index01].cGameObject == null) {
+        for(index01 = 0; index01 < cGV.MAX_CHARACTER_NUM; index01++) {
+            cGV.I.sCharacter[index01].cGameObject = null;
+            cGV.I.sCharacter[index01].cGameObject = GameObject.Find(cGV.I.vCharacterName[index01]);
+            if (cGV.I.sCharacter[index01].cGameObject == null) {
                 cGV.I.QuitProcess("Error::Character GameObject is null");
                 return false;
             }
-            cChar.I.sCharacter[index01].cRigidbody = null;
-            cChar.I.sCharacter[index01].cRigidbody = cChar.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
-            if (cChar.I.sCharacter[index01].cRigidbody == null) {
+            cGV.I.sCharacter[index01].cRigidbody = null;
+            cGV.I.sCharacter[index01].cRigidbody = cGV.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
+            if (cGV.I.sCharacter[index01].cRigidbody == null) {
                 cGV.I.QuitProcess("Error::Rigidbody is null");
                 return false;
             }
-            cChar.I.sCharacter[index01].cCollider = null;
-            cChar.I.sCharacter[index01].cCollider = cChar.I.sCharacter[index01].cGameObject.GetComponent<BoxCollider2D>();
-            if (cChar.I.sCharacter[index01].cCollider == null) {
+            cGV.I.sCharacter[index01].cCollider = null;
+            cGV.I.sCharacter[index01].cCollider = cGV.I.sCharacter[index01].cGameObject.GetComponent<BoxCollider2D>();
+            if (cGV.I.sCharacter[index01].cCollider == null) {
                 cGV.I.QuitProcess("Error::Collider is null"); 
                 return false;
             }
 
-            cChar.I.sCharacter[index01].cSpriteRenderer = null;
-            cChar.I.sCharacter[index01].cSpriteRenderer = cChar.I.sCharacter[index01].cGameObject.GetComponent<SpriteRenderer>();
-            if (cChar.I.sCharacter[index01].cSpriteRenderer == null) {
+            cGV.I.sCharacter[index01].cSpriteRenderer = null;
+            cGV.I.sCharacter[index01].cSpriteRenderer = cGV.I.sCharacter[index01].cGameObject.GetComponent<SpriteRenderer>();
+            if (cGV.I.sCharacter[index01].cSpriteRenderer == null) {
                 cGV.I.QuitProcess("Error::SpriteRenderer is null");
                 return false;
             }
-            cChar.I.sCharacter[index01].cAnimator = null;
-            cChar.I.sCharacter[index01].cAnimator = cChar.I.sCharacter[index01].cGameObject.GetComponent<Animator>();
-            if (cChar.I.sCharacter[index01].cAnimator == null) {
+            cGV.I.sCharacter[index01].cAnimator = null;
+            cGV.I.sCharacter[index01].cAnimator = cGV.I.sCharacter[index01].cGameObject.GetComponent<Animator>();
+            if (cGV.I.sCharacter[index01].cAnimator == null) {
                 cGV.I.QuitProcess("Error::Animator is null");
                 return false;
             }
-            cChar.I.sCharacter[index01].vDirection = 0;
-            cChar.I.sCharacter[index01].vAnimationIndex = 0;
-            cChar.I.sCharacter[index01].vLifePoint = 0;
-            cChar.I.sCharacter[index01].vRunSpeed = 0.0f;
-            cChar.I.sCharacter[index01].vJumpSpeed = 0.0f;
-            cChar.I.sCharacter[index01].vX = 0.0f;
-            cChar.I.sCharacter[index01].vY = 0.0f;
+            cGV.I.sCharacter[index01].vDirection = 0;
+            cGV.I.sCharacter[index01].vAnimationIndex = 0;
+            cGV.I.sCharacter[index01].vLifePoint = 0;
+            cGV.I.sCharacter[index01].vRunSpeed = 0.0f;
+            cGV.I.sCharacter[index01].vJumpSpeed = 0.0f;
+            cGV.I.sCharacter[index01].vX = 0.0f;
+            cGV.I.sCharacter[index01].vY = 0.0f;
 
-            cChar.I.sCharacter[index01].cGameObject.SetActive(false);
+            cGV.I.sCharacter[index01].cGameObject.SetActive(false);
         }
         return true;
     }
