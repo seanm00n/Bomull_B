@@ -29,6 +29,58 @@ public class cGV
     public int vApplicationState;
     public bool[] vCheckApplicationState;
 
+    public string vCanvasName;
+    public struct TEXT{
+        public GameObject cTextDir;//중간 디렉토리용
+        public GameObject[] cTextGameObject;//오브젝트용
+    }
+    public TEXT sText;
+
+    public string vTextDirName;
+    public const int TEXT_MAIN_01 = 0;
+    public const int TEXT_MAIN_02 = 1;
+    public const int TEXT_CHSL_01 = 2;
+    public const int TEXT_PAUS_01 = 3;
+    public const int TEXT_GAOV_01 = 4;
+    public const int MAX_TEXT_NUM = 5;
+    
+    //텍스트는 Canvas\Text\에서 순서대로 찾아 인식
+    public struct BACKGROUND {
+        public GameObject cBackgroundDir;//중간 디렉토리용
+        public GameObject cBackgroundBottomDir;//중간 디렉토리용
+        public GameObject[] cBackgroundGameObject;//오브젝트용
+        public GameObject[] cBackgroundBottomGameObject;
+    }
+    public BACKGROUND sBackground;
+    public const int BACKGROUND_01 = 0;
+    public const int BACKGROUND_02 = 1;
+    public const int BACKGROUND_03 = 2;
+    public const int BACKGROUND_04 = 3;
+    public const int MAX_BACKGROUND_NUM = 4;
+    public string vBackgroundDirName;
+
+    public const int BACKGROUNDBOTTOM_01 = 0;
+    public const int MAX_BACKGROUNDBOTTOM_NUM = 1;
+    public string vBackgroundBottomDirName;
+
+    public struct BUTTON {
+        public GameObject cButtonDir;
+        public GameObject[] cButtonGameObject;
+        public Button[] cButtonComponent;
+    }
+    public BUTTON sButton;
+    public string vButtonDirName;
+    public const int BUTTON_01 = 0;
+    public const int BUTTON_02 = 1;
+    public const int BUTTON_03 = 2;
+    public const int BUTTON_04 = 3;
+    public const int BUTTON_05 = 4;
+    public const int BUTTON_06= 5;
+    public const int BUTTON_07 = 6;
+    public const int MAX_BUTTON_NUM = 7;
+
+    public GameObject cCanvasGameObject;
+    
     public void QuitProcess(string tstring) {
         #if UNITY_EDITOR
         Debug.LogError(tstring);

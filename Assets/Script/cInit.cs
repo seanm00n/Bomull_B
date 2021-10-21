@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class cInit : MonoBehaviour
 {
@@ -16,11 +18,133 @@ public class cInit : MonoBehaviour
         cGV.I.vApplicationState = 0;
         cGV.I.vCheckApplicationState = null;
         cGV.I.vCheckApplicationState = new bool[cGV.MAX_APPLICATION_STATE_NUM];
+
+        int index01;
+        cGV.I.vCanvasName = "Canvas";
+
+        //Text
+        cGV.I.vTextDirName = "Text";
+        cGV.I.cCanvasGameObject = null;
+        cGV.I.cCanvasGameObject = GameObject.Find(cGV.I.vCanvasName);
+        if (cGV.I.cCanvasGameObject == null) {
+            cGV.I.QuitProcess("Error::Canvas Directory is null");
+            return false;
+        }
+        cGV.I.cCanvasGameObject.SetActive(false);
+        
+        cGV.I.sText.cTextDir = null;
+        cGV.I.sText.cTextDir = cGV.I.cCanvasGameObject.transform.Find(cGV.I.vTextDirName).gameObject;//find는 상위 오브젝트 찾을때
+        if (cGV.I.sText.cTextDir == null) {
+            cGV.I.QuitProcess("Error::Text Direcory is null");
+            return false;
+        }
+
+        cGV.I.sText.cTextGameObject = null;
+        cGV.I.sText.cTextGameObject = new GameObject[cGV.MAX_TEXT_NUM];
+        if (cGV.I.sText.cTextGameObject == null)
+        {
+            cGV.I.QuitProcess("Error::Text is null");
+            return false;
+        }
+
+        for (index01 = 0; index01 < cGV.MAX_TEXT_NUM; index01++) {
+            cGV.I.sText.cTextGameObject[index01] = null;
+            cGV.I.sText.cTextGameObject[index01] = cGV.I.sText.cTextDir.transform.GetChild(index01).gameObject; //index01번째 오브젝트
+            if (cGV.I.sText.cTextGameObject[index01] == null) {
+                cGV.I.QuitProcess("Error::Text Child is null");
+                return false;
+            }
+        }
+        cGV.I.sText.cTextDir.SetActive(false);
+        
+        //Background
+
+        cGV.I.vBackgroundDirName = "Background";
+        cGV.I.vBackgroundBottomDirName = "BackgroundBottom";
+
+        cGV.I.sBackground.cBackgroundDir = null;
+        cGV.I.sBackground.cBackgroundDir = cGV.I.cCanvasGameObject.transform.Find(cGV.I.vBackgroundDirName).gameObject;//
+        if (cGV.I.sBackground.cBackgroundDir == null) {
+            cGV.I.QuitProcess("Error::Background Directory is null");
+            return false;
+        }
+
+        cGV.I.sBackground.cBackgroundGameObject = null;
+        cGV.I.sBackground.cBackgroundGameObject = new GameObject[cGV.MAX_BACKGROUND_NUM];
+        if (cGV.I.sBackground.cBackgroundGameObject == null) {
+            cGV.I.QuitProcess("Error::Background is null");
+            return false;
+        }
+
+        cGV.I.sBackground.cBackgroundBottomDir = null;
+        cGV.I.sBackground.cBackgroundBottomDir = cGV.I.cCanvasGameObject.transform.Find(cGV.I.vBackgroundBottomDirName).gameObject;
+        if (cGV.I.sBackground.cBackgroundBottomDir == null) {
+            cGV.I.QuitProcess("Error::BackgroundBottom Directory is null");
+            return false;
+        }
+
+        cGV.I.sBackground.cBackgroundBottomGameObject = null;
+        cGV.I.sBackground.cBackgroundBottomGameObject = new GameObject[cGV.MAX_BACKGROUNDBOTTOM_NUM];
+        if (cGV.I.sBackground.cBackgroundBottomGameObject == null) {
+            cGV.I.QuitProcess("Error::BackgroundBottom is null");
+            return false;
+        }
+
+        for (index01 = 0; index01 < cGV.MAX_BACKGROUND_NUM; index01++) {
+            cGV.I.sBackground.cBackgroundGameObject[index01] = null;
+            cGV.I.sBackground.cBackgroundGameObject[index01] = cGV.I.sBackground.cBackgroundDir.transform.GetChild(index01).gameObject;
+            if (cGV.I.sBackground.cBackgroundGameObject[index01] == null) {
+                cGV.I.QuitProcess("Error::Background" + index01 + " is null");
+                return false;
+            }
+        }
+
+        for (index01 = 0; index01 < cGV.MAX_BACKGROUNDBOTTOM_NUM; index01++) {
+            cGV.I.sBackground.cBackgroundBottomGameObject[index01] = null;
+            cGV.I.sBackground.cBackgroundBottomGameObject[index01] = cGV.I.sBackground.cBackgroundBottomDir.transform.GetChild(index01).gameObject;
+            if (cGV.I.sBackground.cBackgroundBottomGameObject[index01] == null) {
+                cGV.I.QuitProcess("Error::BackgroundBottom" + index01 + " is null");
+                return false;
+            }
+        }
+        cGV.I.sBackground.cBackgroundDir.SetActive(false);
+        cGV.I.sBackground.cBackgroundBottomDir.SetActive(false);
+
+        //button
+        cGV.I.vButtonDirName = "Button";
+
+        cGV.I.sButton.cButtonDir = null;//상위 디렉토리찾고
+        cGV.I.sButton.cButtonDir = cGV.I.cCanvasGameObject.transform.Find(cGV.I.vButtonDirName).gameObject;
+        if(cGV.I.sButton.cButtonDir == null) {
+            cGV.I.QuitProcess("Error::Button Directory is null");
+            return false;
+        }
+
+        cGV.I.sButton.cButtonGameObject = null;//
+        cGV.I.sButton.cButtonGameObject = new GameObject[cGV.MAX_BUTTON_NUM];
+        if(cGV.I.sButton.cButtonGameObject == null) {
+            cGV.I.QuitProcess("Error::Button is null");
+            return false;
+        }
+
+        cGV.I.sButton.cButtonComponent = null;
+        cGV.I.sButton.cButtonComponent = new Button[cGV.MAX_BUTTON_NUM];
+        if (cGV.I.sButton.cButtonComponent == null) {
+            cGV.I.QuitProcess("Error::Button Component is null");
+            return false;
+        }
+
+        for(index01 = 0; index01 < cGV.MAX_BUTTON_NUM; index01++) {
+            cGV.I.sButton.cButtonGameObject[index01] = cGV.I.sButton.cButtonDir.transform.GetChild(index01).gameObject;//오브젝트 번호순으로 찾고
+            cGV.I.sButton.cButtonComponent[index01] = cGV.I.sButton.cButtonGameObject[index01].transform.GetComponent<Button>();//오브젝트의 컴포넌트 찾고
+            cGV.I.sButton.cButtonGameObject[index01].SetActive(false);//컨트롤 할땐 오브젝트로
+        }
+        
         return true;
     }
     public bool Initialize_Character() {
         int index01;
-        cChar.I.vCharacterName = null;
+        //cChar.I.vCharacterName = null;
         cChar.I.vCharacterName = new string[cChar.MAX_CHARACTER_NUM];
         cChar.I.vCharacterName[cChar.CHARACTER_MAN] = "Character";
         for (index01 = 0; index01 < cChar.MAX_CHARACTER_NUM; index01++) {
@@ -89,6 +213,8 @@ public class cInit : MonoBehaviour
             cChar.I.sCharacter[index01].vJumpSpeed = 0.0f;
             cChar.I.sCharacter[index01].vX = 0.0f;
             cChar.I.sCharacter[index01].vY = 0.0f;
+
+            cChar.I.sCharacter[index01].cGameObject.SetActive(false);
         }
         return true;
     }
@@ -144,5 +270,6 @@ public class cInit : MonoBehaviour
         }
         Application.targetFrameRate = cGV.vFPS;
         Initialize();
+        Initialize_Character();
     }
 }
