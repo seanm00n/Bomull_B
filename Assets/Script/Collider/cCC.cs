@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class cCC : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    //class Character Collider
     void Update()
     {
         

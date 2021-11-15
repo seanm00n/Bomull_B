@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class cIC : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    //class Item Collider
     void Update()
     {
         
