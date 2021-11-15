@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System;
 
 public class cGV
 {
@@ -51,6 +52,7 @@ public class cGV
         public GameObject[] cBackgroundGameObject;//오브젝트용
         public GameObject[] cBackgroundBottomGameObject;
     }
+
     public BACKGROUND sBackground;
     public const int BACKGROUND_01 = 0;
     public const int BACKGROUND_02 = 1;
@@ -83,7 +85,7 @@ public class cGV
 
     public struct CHARACTER {
         public GameObject cGameObject;
-        public Rigidbody2D cRigidbody;
+        public Rigidbody2D cRigidBody;
         public BoxCollider2D cCollider; //cCC, cInit.Initialize_Character() 수정
         public SpriteRenderer cSpriteRenderer;
         public Animator cAnimator;
@@ -92,8 +94,10 @@ public class cGV
         public int vLifePoint;
         public float vRunSpeed;
         public float vJumpSpeed;
+        public float vGravityScale;
         public float vX;
         public float vY;
+        public int[,] vMessage;
     }
     public CHARACTER[] sCharacter;
 
@@ -107,9 +111,25 @@ public class cGV
     public const int ANIMATION_STATE_JUMP = 2;
     public const int ANIMATION_STATE_FALL = 3;
     public const int ANIMATION_STATE_HIT = 4;
-    public const int ANIMATION_STATE_DIE = 5;
+    public const int ANIMATION_STATE_DEATH = 5;
     public const int MAX_ANIMATION_STATE_NUM = 6;
     public string[] vAnimationName;
+
+    public const int MAX_MESSAGE_NUM = 64;
+    public const int MAX_SUB_MESSAGE_SORT_NUM = 3;
+    public const int SUB_MESSAGE_TYPE_NONE = 0;
+    public const int SUB_MESSAGE_TYPE_CLIPPING = 1;
+    public const int SUB_MESSAGE_TYPE_FALL = 2;
+    public const int SUB_MESSAGE_TYPE_ATTACK_END = 3;
+    public const int SUB_MESSAGE_TYPE_TARGET_1 = 4;
+    public const int SUB_MESSAGE_TYPE_TARGET_2 = 5;
+    public const int SUB_MESSAGE_TYPE_HIT_1 = 6;
+    public const int SUB_MESSAGE_TYPE_HIT_2 = 7;
+    public const int SUB_MESSAGE_TYPE_HIT_END = 8;
+    public const int SUB_MESSAGE_TYPE_COLLISION = 9;
+    public const int SUB_MESSAGE_TYPE_DEATH = 10;
+    public const int SUB_MESSAGE_TYPE_DEATH_END = 11;
+    public const int SUB_MESSAGE_TYPE_RESURRECTION = 12;
 
     public void QuitProcess(string tstring) {
         #if UNITY_EDITOR
@@ -120,13 +140,83 @@ public class cGV
         #endif
     }
 
-    public void SetAnimation(int tAnimationIndex, ref cGV tCharacter) {
-        //애니메이션 상태 변경
-        //애니메이션 번호와 변경할 캐릭터를 넘김
+    public void SetAnimation(int tAnimationIndex, ref CHARACTER tCharacter) {
+        int index01;
+
+        if (vAnimationName == null) {
+            QuitProcess("Error::vAnimationName == null");
+            return;
+        }
+
+        if (tAnimationIndex < 0 || MAX_ANIMATION_STATE_NUM <= tAnimationIndex) {
+            QuitProcess("Error::tAnimationIndex out of range");
+            return;
+        }
+        tCharacter.cAnimator.SetBool(vAnimationName[tAnimationIndex], true);
+        tCharacter.vAnimationIndex = tAnimationIndex;
+
+        for (index01 = 0; index01 < MAX_ANIMATION_STATE_NUM; index01++) {
+            if (tAnimationIndex != index01)
+                tCharacter.cAnimator.SetBool(vAnimationName[index01], false);
+        }
     }
-    public void SetDirection(int tDirection, ref cGV tCharacter) {
-        //방향 번경
-        //변경할 캐릭터와 방향을 넘김
+    public void SetDirection(int tDirection, ref CHARACTER tCharacter) {
+        Vector3 tVector3;
+
+        if (tDirection != -1 && tDirection != 1) {
+            return;
+        }
+
+        if (tCharacter.vDirection != tDirection) {
+            tVector3.x = 0.0f;
+            tVector3.y = 180.0f;
+            tVector3.z = 0.0f;
+            tCharacter.cGameObject.transform.Rotate(tVector3);
+            tCharacter.vDirection = tDirection;
+        }
+    }
+    public bool GetMessage(int tSubMessageType, int tSubMessageValue1, int tSubMessageValue2, int[,] tMessage, int[] tMessage_Out, bool CheckOnly) {
+        int index01;
+        bool RETURN_VALUE;
+        if (tMessage == null) {
+            return false;
+        }
+        RETURN_VALUE = false;
+
+        switch (tMessage_Out) {
+            case null:
+                for (index01 = 0; index01 < MAX_MESSAGE_NUM; index01++) {
+                    if (tMessage[index01, 0] != tSubMessageType ||
+                        tMessage[index01, 1] != tSubMessageValue1 ||
+                        tMessage[index01, 2] != tSubMessageValue2) {
+                        continue;
+                    }
+                    if (CheckOnly == false) {
+                        tMessage[index01, 0] = SUB_MESSAGE_TYPE_NONE;
+                        tMessage[index01, 1] = 0;
+                        tMessage[index01, 2] = 0;
+                    }
+                    RETURN_VALUE = true;
+                }
+                break;
+            default:
+                for (index01 = 0; index01 < MAX_MESSAGE_NUM; index01++) {
+                    if (tMessage[index01, 0] != tSubMessageType) {
+                        continue;
+                    }
+                    tMessage_Out[0] = tMessage[index01, 0];//attack array
+                    tMessage_Out[1] = tMessage[index01, 1];//monster data array
+                    tMessage_Out[2] = tMessage[index01, 2];//monster clone array
+                    if (CheckOnly == false) {
+                        tMessage[index01, 0] = SUB_MESSAGE_TYPE_NONE;
+                        tMessage[index01, 1] = 0;
+                        tMessage[index01, 2] = 0;
+                    }
+                    RETURN_VALUE = true;
+                }
+                break;
+        }
+        return RETURN_VALUE;
     }
 
 }

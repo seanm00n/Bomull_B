@@ -162,7 +162,7 @@ public class cInit : MonoBehaviour{
         cGV.I.vAnimationName[cGV.ANIMATION_STATE_JUMP] = "Jump";
         cGV.I.vAnimationName[cGV.ANIMATION_STATE_FALL] = "Fall";
         cGV.I.vAnimationName[cGV.ANIMATION_STATE_HIT] = "Hit";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_DIE] = "Die";
+        cGV.I.vAnimationName[cGV.ANIMATION_STATE_DEATH] = "Death";
         for (index01 = 0; index01 < cGV.MAX_ANIMATION_STATE_NUM; index01++) {
             if (cGV.I.vAnimationName[index01] == null) {
                 cGV.I.QuitProcess("Error::AnimationName is null");
@@ -182,9 +182,9 @@ public class cInit : MonoBehaviour{
                 cGV.I.QuitProcess("Error::Character GameObject is null");
                 return false;
             }
-            cGV.I.sCharacter[index01].cRigidbody = null;
-            cGV.I.sCharacter[index01].cRigidbody = cGV.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
-            if (cGV.I.sCharacter[index01].cRigidbody == null) {
+            cGV.I.sCharacter[index01].cRigidBody = null;
+            cGV.I.sCharacter[index01].cRigidBody = cGV.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
+            if (cGV.I.sCharacter[index01].cRigidBody == null) {
                 cGV.I.QuitProcess("Error::Rigidbody is null");
                 return false;
             }
@@ -207,13 +207,20 @@ public class cInit : MonoBehaviour{
                 cGV.I.QuitProcess("Error::Animator is null");
                 return false;
             }
-            cGV.I.sCharacter[index01].vDirection = 0;
+            cGV.I.sCharacter[index01].vMessage = null;
+            cGV.I.sCharacter[index01].vMessage = new int[cGV.MAX_MESSAGE_NUM, cGV.MAX_SUB_MESSAGE_SORT_NUM];
+            if (cGV.I.sCharacter[index01].vMessage == null) {
+                cGV.I.QuitProcess("Error::Character Message is null");
+                return false;
+            }
+            cGV.I.sCharacter[index01].vDirection = 1;
             cGV.I.sCharacter[index01].vAnimationIndex = 0;
             cGV.I.sCharacter[index01].vLifePoint = 0;
-            cGV.I.sCharacter[index01].vRunSpeed = 0.0f;
-            cGV.I.sCharacter[index01].vJumpSpeed = 0.0f;
-            cGV.I.sCharacter[index01].vX = 0.0f;
-            cGV.I.sCharacter[index01].vY = 0.0f;
+            cGV.I.sCharacter[index01].vRunSpeed = 200.0f;
+            cGV.I.sCharacter[index01].vJumpSpeed = 250.0f;
+            cGV.I.sCharacter[index01].vGravityScale = 40.0f;
+            cGV.I.sCharacter[index01].vX = cGV.I.sCharacter[index01].cCollider.size.x / 2.0f;
+            cGV.I.sCharacter[index01].vY = cGV.I.sCharacter[index01].cCollider.size.y / 2.0f;
 
             cGV.I.sCharacter[index01].cGameObject.SetActive(false);
         }
