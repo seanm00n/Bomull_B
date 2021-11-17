@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class cLogic : MonoBehaviour
 {
-    static private cLogic getLogic;
-    static public cLogic I
-    {
-        get
-        {
-            if (getLogic == null)
-                return null;
-            return getLogic;
-        }
+    public void GameLogicProcessCharacter() {
+
     }
-    public bool GameLogic()
-    {
-        Debug.Log("This is Game Logic");
-/*        if (asdf)
-        {
-            cInit.I.Destroy_Game();
-        }*/
-        return true;
+    void Update() {
+        if (cGV.I.vApplicationState < 0 || cGV.I.vApplicationState >= cGV.MAX_APPLICATION_STATE_NUM) {
+            return;
+        }
+        if (!cGV.I.vCheckApplicationState[cGV.I.vApplicationState]) {
+            return;
+        }
+        switch (cGV.I.vApplicationState) {
+            case cGV.APPLICATION_STATE_MAIN:
+                break;
+            case cGV.APPLICATION_STATE_CHSL:
+                break;
+            case cGV.APPLICATION_STATE_GAME:
+                GameLogicProcessCharacter();
+                break;
+            case cGV.APPLICATION_STATE_GAOV:
+                break;
+        }
     }
 }

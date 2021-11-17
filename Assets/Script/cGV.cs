@@ -95,6 +95,7 @@ public class cGV
         public float vRunSpeed;
         public float vJumpSpeed;
         public float vGravityScale;
+        public int[] vAnimationHash;
         public float vX;
         public float vY;
         public int[,] vMessage;
@@ -131,6 +132,8 @@ public class cGV
     public const int SUB_MESSAGE_TYPE_DEATH_END = 11;
     public const int SUB_MESSAGE_TYPE_RESURRECTION = 12;
 
+    public const int ERROR_VALUE = -1;
+
     public void QuitProcess(string tstring) {
         #if UNITY_EDITOR
         Debug.LogError(tstring);
@@ -159,6 +162,24 @@ public class cGV
             if (tAnimationIndex != index01)
                 tCharacter.cAnimator.SetBool(vAnimationName[index01], false);
         }
+    }
+    public float GetAnimationNormalizeTime(Animator tAnimator) {
+        if (tAnimator == null) {
+            return 0;
+        }
+        return tAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+    public int GetCurrentAnimation(CHARACTER tCharacter) {
+        int index01;
+        if (tCharacter.vAnimationHash == null) {
+            return ERROR_VALUE;
+        }
+        for (index01 = 0; index01 < MAX_ANIMATION_STATE_NUM; index01++) {
+            if (tCharacter.cAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash == tCharacter.vAnimationHash[index01]) {
+                return index01;
+            }
+        }
+        return ERROR_VALUE;
     }
     public void SetDirection(int tDirection, ref CHARACTER tCharacter) {
         Vector3 tVector3;

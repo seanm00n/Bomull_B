@@ -142,7 +142,8 @@ public class cInit : MonoBehaviour{
         return true;
     }
     public bool Initialize_Character() {
-        int index01;
+        int index01, index02;
+        string tString01;
         
         cGV.I.vCharacterName = null;
         cGV.I.vCharacterName = new string[cGV.MAX_CHARACTER_NUM];
@@ -212,6 +213,15 @@ public class cInit : MonoBehaviour{
             if (cGV.I.sCharacter[index01].vMessage == null) {
                 cGV.I.QuitProcess("Error::Character Message is null");
                 return false;
+            }
+            cGV.I.sCharacter[index01].vAnimationHash = null;
+            cGV.I.sCharacter[index01].vAnimationHash = new int[cGV.MAX_MESSAGE_NUM];
+            if (cGV.I.sCharacter[index01].vAnimationHash == null) {
+                return false;
+            }
+            for (index02 = 0; index02 < cGV.MAX_ANIMATION_STATE_NUM; index02++) {
+                tString01 = string.Format("Base Layer.{0}", cGV.I.vAnimationName[index02]);
+                cGV.I.sCharacter[index01].vAnimationHash[index02] = Animator.StringToHash(tString01);
             }
             cGV.I.sCharacter[index01].vDirection = 1;
             cGV.I.sCharacter[index01].vAnimationIndex = 0;

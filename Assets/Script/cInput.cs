@@ -44,12 +44,10 @@ public class cInput : MonoBehaviour
 
         tValueX = 0.0f;
         tValueX = Input.GetAxisRaw("Horizontal");//입력값 백터값으로 저장
-        tValueY = 0.0f;
-        tValueY = Input.GetAxisRaw("Vertical");
 
         /*이 구문의 위치를 잘 생각 할 것*/
 
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_HIT) {
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_HIT) {//맞으면죽음
             tVector3.x = 0.0f;
             tVector3.y = 0.0f;
             tVector3.z = 0.0f;
@@ -94,9 +92,9 @@ public class cInput : MonoBehaviour
             }
         }
 
-
+        //11171853
         if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {
-            if (tValueY == 1.0f) {
+            if (Input.GetKey(KeyCode.Space)) {//점프
                 tVector2.x = 0.0f;
                 tVector2.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].vJumpSpeed;
                 cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);
@@ -115,50 +113,15 @@ public class cInput : MonoBehaviour
             cGV.I.SetDirection((int)tValueX, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);//방향선택
         }
 
-        if ((cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x < cGV.I.sCharacter[cGV.I.vCharacterIndex].vHalfSizeX && tValueX < 0.0f) ||
-            (cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x > cGV.I.sWorld[cGV.I.vWorldIndex].vWorldWidth - cGV.I.sCharacter[cGV.I.vCharacterIndex].vHalfSizeX && tValueX > 0.0f)) {
-            tVector3.x = 0.0f;
-            tVector3.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity.y;
-            tVector3.z = 0.0f;
-            cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector3;
-            //맵을 넘어 갈 시 이동하지 않고 제자리
-            return;
-        }
-
         tVector3.x = tValueX * cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed;
         tVector3.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity.y;
         tVector3.z = 0.0f;
         cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector3;
         //문제 없을 시 이동처리
 
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x > cGV.I.sScreen.vScreenWidth / 2.0f &&
-            cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x < cGV.I.sWorld[cGV.I.vWorldIndex].vWorldWidth - (cGV.I.sScreen.vScreenWidth / 2.0f)) {
-            tVector3.x = cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x;
-            tVector3.y = Camera.main.transform.position.y;
-            tVector3.z = Camera.main.transform.position.z;
-            Camera.main.transform.position = tVector3;
-        }//스크린 절반 이상 이동시 카메라 같이 움직임
         if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
             cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed = 0;
             return;
-        }
-
-        //캐릭터 동작 처리 마우스
-        if (Input.GetMouseButtonUp(0)) {
-            if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {
-                cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = Vector3.zero;
-                cGV.I.SetAnimation(cGV.ANIMATION_STATE_ATTACK_A, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                cGV.I.sCharacter[cGV.I.vCharacterIndex].vHitCheck = true;
-                return;
-            }
-        }
-        if (Input.GetMouseButtonUp(1)) {
-            if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {
-                cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = Vector3.zero;
-                cGV.I.SetAnimation(cGV.ANIMATION_STATE_ATTACK_B, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                cGV.I.sCharacter[cGV.I.vCharacterIndex].vHitCheck = true;
-                return;
-            }
         }
     }
     void Update()
