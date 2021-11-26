@@ -139,13 +139,13 @@ public class cGV
     public const int SUB_MESSAGE_TYPE_ATTACK_END = 3;
     public const int SUB_MESSAGE_TYPE_TARGET_1 = 4;
     public const int SUB_MESSAGE_TYPE_TARGET_2 = 5;
-    public const int SUB_MESSAGE_TYPE_HIT_1 = 6;
-    public const int SUB_MESSAGE_TYPE_HIT_2 = 7;
-    public const int SUB_MESSAGE_TYPE_HIT_END = 8;
-    public const int SUB_MESSAGE_TYPE_COLLISION = 9;
-    public const int SUB_MESSAGE_TYPE_DEATH = 10;
-    public const int SUB_MESSAGE_TYPE_DEATH_END = 11;
-    public const int SUB_MESSAGE_TYPE_RESURRECTION = 12;
+    public const int SUB_MESSAGE_TYPE_HIT = 6;
+    //public const int SUB_MESSAGE_TYPE_HIT_2 = 7;
+    public const int SUB_MESSAGE_TYPE_HIT_END = 7;
+    public const int SUB_MESSAGE_TYPE_COLLISION = 8;
+    public const int SUB_MESSAGE_TYPE_DEATH = 9;
+    public const int SUB_MESSAGE_TYPE_DEATH_END = 01;
+    public const int SUB_MESSAGE_TYPE_RESURRECTION = 11;
 
     public const int ERROR_VALUE = -1;
 
@@ -235,6 +235,9 @@ public class cGV
             return true;
         }
         return false;
+    }
+    public void DeletMessage(int[,] tMessage) {
+        System.Array.Clear(tMessage, 0, MAX_MESSAGE_NUM * MAX_SUB_MESSAGE_SORT_NUM);
     }
     public bool GetMessage(int tSubMessageType, int tSubMessageValue1, int tSubMessageValue2, int[,] tMessage, int[] tMessage_Out, bool CheckOnly) {
         int index01;

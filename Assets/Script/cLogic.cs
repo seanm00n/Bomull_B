@@ -14,6 +14,12 @@ public class cLogic : MonoBehaviour
             return;
         }
     }
+    public void GameLogicProcessItem() {
+        cGV.I.sITEM[0].cGameObject.SetActive(true);
+        //아이템 액티브 온
+        //충돌 시 삭제
+        //아이템 이동 경로 및 생성
+    }
     void Update() {
         if (cGV.I.vApplicationState < 0 || cGV.I.vApplicationState >= cGV.MAX_APPLICATION_STATE_NUM) {
             return;
@@ -28,6 +34,7 @@ public class cLogic : MonoBehaviour
                 break;
             case cGV.APPLICATION_STATE_GAME:
                 GameLogicProcessCharacter();
+                GameLogicProcessItem();
                 break;
             case cGV.APPLICATION_STATE_GAOV:
                 break;

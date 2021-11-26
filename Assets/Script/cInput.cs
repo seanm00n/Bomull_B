@@ -45,6 +45,22 @@ public class cInput : MonoBehaviour
         tValueX = 0.0f;
         tValueX = Input.GetAxisRaw("Horizontal");//입력값 백터값으로 저장
 
+        if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_COLLISION, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false) == true) {
+            if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex != cGV.ANIMATION_STATE_JUMP) {//Jump는 충돌을 무시한다
+                if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_FALL) {//떨어지면서 몬스터를 밟았다
+                    tVector2.x = 0.0f;
+                    tVector2.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].vJumpSpeed;
+                    cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);
+                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_JUMP, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
+                } else {
+                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_HIT, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
+                    tVector2.x = 0.0f;
+                    tVector2.y = 0.0f;
+                    cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector2;
+                }
+            }
+            return;
+        }
 
         if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {//IDLE or RUN이고
             if (Input.GetKey(KeyCode.Space)) {//점프키 누르면
