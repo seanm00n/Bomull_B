@@ -144,7 +144,20 @@ public class cInit : MonoBehaviour{
     public bool Initialize_Character() {
         int index01, index02;
         string tString01;
-        
+
+        cGV.I.vClippingObjectName = null;
+        cGV.I.vClippingObjectName = "ClippingObject";
+        if (cGV.I.vClippingObjectName == null) {
+            cGV.I.QuitProcess("Error::vClippingObjectName == null");
+            return false;
+        }
+        cGV.I.cClippingObject = null;
+        cGV.I.cClippingObject = GameObject.Find(cGV.I.vClippingObjectName);
+        if (cGV.I.cClippingObject == null) {
+            cGV.I.QuitProcess("Error::cClippingObject == null");
+            return false;
+        }
+
         cGV.I.vCharacterName = null;
         cGV.I.vCharacterName = new string[cGV.MAX_CHARACTER_NUM];
         cGV.I.vCharacterName[cGV.CHARACTER_MAN] = "Character";
@@ -238,6 +251,162 @@ public class cInit : MonoBehaviour{
         return true;
     }
     public bool Initialize_Item() {
+        int index01, index02, index03;
+        string tString01;
+        Vector3 tVector3;
+        cGV.I.vItemName = null;
+        cGV.I.vItemName = new string[cGV.MAX_ITEM_DATA_NUM];
+        if (cGV.I.vItemName == null) {
+            cGV.I.QuitProcess("Error::vItemName == null");
+            return false;
+        }
+        cGV.I.vItemName[cGV.ITEM_BOMULL] = "ItemBomull";
+        cGV.I.vItemName[cGV.ITEM_HEART] = "ItemHeart";
+        cGV.I.vItemName[cGV.ITEM_STONE] = "ItemStone";
+        cGV.I.sITEM = null;
+        cGV.I.sITEM = new cGV.CHARACTER[cGV.MAX_ITEM_DATA_NUM];
+        if (cGV.I.sITEM == null) {
+            cGV.I.QuitProcess("Error::sITEM is null");
+            return false;
+        }
+        cGV.I.sItem = null;
+        cGV.I.sItem = new cGV.CHARACTER[cGV.MAX_ITEM_DATA_NUM, cGV.MAX_ITEM_NUM];
+        if (cGV.I.sItem == null) {
+            cGV.I.QuitProcess("sItem is null");
+            return false;
+        }
+        for (index01 = 0; index01 < cGV.MAX_ITEM_DATA_NUM; index01++) {
+            cGV.I.sITEM[index01].cGameObject = null;
+            cGV.I.sITEM[index01].cGameObject = GameObject.Find(cGV.I.vItemName[index01]);
+            if (cGV.I.sITEM[index01].cGameObject == null) {
+                cGV.I.QuitProcess("Error::sITEM.cGameObject is null");
+                return false;
+            }
+            cGV.I.sITEM[index01].cSpriteRenderer = null;
+            cGV.I.sITEM[index01].cSpriteRenderer = cGV.I.sITEM[index01].cGameObject.GetComponent<SpriteRenderer>();
+            if (cGV.I.sITEM[index01].cSpriteRenderer == null) {
+                cGV.I.QuitProcess("Error::sITEM.cSpriteRenderer is null");
+                return false;
+            }
+            cGV.I.sITEM[index01].cCollider = null;
+            cGV.I.sITEM[index01].cCollider = cGV.I.sITEM[index01].cGameObject.GetComponent<BoxCollider2D>();
+            if (cGV.I.sITEM[index01].cCollider == null) {
+                cGV.I.QuitProcess("Error::sItem.cCollider is null");
+                return false;
+            }
+            cGV.I.sITEM[index01].cRigidBody = null;
+            cGV.I.sITEM[index01].cRigidBody = cGV.I.sITEM[index01].cGameObject.GetComponent<Rigidbody2D>();
+            if (cGV.I.sITEM[index01].cRigidBody == null) {
+                cGV.I.QuitProcess("Error::sITEM[].cRigidBody is null");
+                return false;
+            }
+
+            cGV.I.sITEM[index01].cAnimator = null;
+            cGV.I.sITEM[index01].cAnimator = cGV.I.sITEM[index01].cGameObject.GetComponent<Animator>();
+            if (cGV.I.sITEM[index01].cAnimator == null) {
+                cGV.I.QuitProcess("Error::sITEM[].cAnimator is null");
+                return false;
+            }
+            for (index02 = 0; index02 < cGV.MAX_ITEM_NUM; index02++) {
+                if (index02 == 0) {
+                    cGV.I.sItem[index01, index02].cGameObject = null;
+                    cGV.I.sItem[index01, index02].cGameObject = Instantiate(cGV.I.sITEM[index01].cGameObject, cGV.I.sITEM[index01].cGameObject.transform);
+                    if (cGV.I.sItem[index01, index02].cGameObject == null) {
+                        cGV.I.QuitProcess("Error::sItem[,].cGameObject is null");
+                        return false;
+                    }
+                } else {
+                    cGV.I.sItem[index01, index02].cGameObject = null;
+                    cGV.I.sItem[index01, index02].cGameObject = Instantiate(cGV.I.sItem[index01, index02 - 1].cGameObject, cGV.I.sITEM[index01].cGameObject.transform);
+                    if (cGV.I.sItem[index01, index02].cGameObject == null) {
+                        cGV.I.QuitProcess("Error::sItem[,].cGameObject is null");
+                        return false;
+                    }
+                }
+                tString01 = string.Format("Clone.{0}", index02);
+                cGV.I.sItem[index01, index02].cGameObject.name = null;
+                cGV.I.sItem[index01, index02].cGameObject.name = tString01;
+                if (cGV.I.sItem[index01, index02].cGameObject.name == null) {
+                    cGV.I.QuitProcess("Error::sItem[,].cGameObject.name is null");
+                    return false;
+                }
+                cGV.I.sItem[index01, index02].cSpriteRenderer = null;
+                cGV.I.sItem[index01, index02].cSpriteRenderer = cGV.I.sItem[index01, index02].cGameObject.GetComponent<SpriteRenderer>();
+                if (cGV.I.sItem[index01, index02].cSpriteRenderer == null) {
+                    cGV.I.QuitProcess("Error::sItem[,].cSpriteRenderer is null");
+                    return false;
+                }
+
+                cGV.I.sItem[index01, index02].cCollider = null;
+                cGV.I.sItem[index01, index02].cCollider = cGV.I.sItem[index01, index02].cGameObject.GetComponent<BoxCollider2D>();
+                if (cGV.I.sItem[index01, index02].cCollider == null) {
+                    cGV.I.QuitProcess("Error::sItem[,].cCollider is null");
+                    return false;
+                }
+
+                cGV.I.sItem[index01, index02].cRigidBody = null;
+                cGV.I.sItem[index01, index02].cRigidBody = cGV.I.sItem[index01, index02].cGameObject.GetComponent<Rigidbody2D>();
+
+                cGV.I.sItem[index01, index02].cRigidBody.freezeRotation = true;
+
+                cGV.I.sItem[index01, index02].cAnimator = null;
+                cGV.I.sItem[index01, index02].cAnimator = cGV.I.sItem[index01, index02].cGameObject.GetComponent<Animator>();
+                if (cGV.I.sItem[index01, index02].cAnimator == null) {
+                    cGV.I.QuitProcess("Error::sItem[,].cAnimator is null");
+                    return false;
+                }
+                //Loop MAX_MONSTER_NUM 루프
+                //  vHalfSizeX(cCollider.size.x/2.0f)
+                //  y "
+                cGV.I.sItem[index01, index02].vX = cGV.I.sItem[index01, index02].cCollider.size.x / 2.0f;
+                cGV.I.sItem[index01, index02].vY = cGV.I.sItem[index01, index02].cCollider.size.y / 2.0f;
+                cGV.I.sItem[index01, index02].vAnimationIndex = cGV.ANIMATION_STATE_IDLE;
+                cGV.I.sItem[index01, index02].vDirection = 1;
+                cGV.I.sItem[index01, index02].vGravityScale = 40.4f;
+                cGV.I.sItem[index01, index02].cRigidBody.gravityScale = cGV.I.sItem[index01, index02].vGravityScale;
+                cGV.I.sItem[index01, index02].vRunSpeed = 100.0f;
+                cGV.I.sItem[index01, index02].vJumpSpeed = 150.0f;
+                //  vAnimationHash 할당 및 에러처리
+                cGV.I.sItem[index01, index02].vAnimationHash = null;
+                cGV.I.sItem[index01, index02].vAnimationHash = new int[cGV.MAX_ANIMATION_STATE_NUM];
+                if (cGV.I.sItem[index01, index02].vAnimationHash == null) {
+                    cGV.I.QuitProcess("Error::sItem[,].vAnimationHash is null");
+                    return false;
+                }
+                //  MAX_ANIMATION_STATE_NUM
+                //      vAnimationHash
+                for (index03 = 0; index03 < cGV.MAX_ANIMATION_STATE_NUM; index03++) {
+                    tString01 = string.Format("Base Layer.{0}", cGV.I.vAnimationName[index03]);
+                    cGV.I.sItem[index01, index02].vAnimationHash[index03] = Animator.StringToHash(tString01);
+                }
+
+                //  vMessage 할당 및 에러처리
+                cGV.I.sItem[index01, index02].vMessage = null;
+                cGV.I.sItem[index01, index02].vMessage = new int[cGV.MAX_MESSAGE_NUM, cGV.MAX_SUB_MESSAGE_SORT_NUM];
+                if (cGV.I.sItem[index01, index02].vMessage == null) {
+                    cGV.I.QuitProcess("Error:sItem[,].vMessage is null");
+                    return false;
+                }
+                tVector3.x = 1.0f;
+                tVector3.y = 1.0f;
+                tVector3.z = 1.0f;
+                cGV.I.sItem[index01, index02].cGameObject.transform.localScale = tVector3;
+                cGV.I.sItem[index01, index02].cGameObject.SetActive(true);
+            }
+            //sITEM(Original) -> 부모의 상태는 자식에게 즉각 반영됨
+            cGV.I.sITEM[index01].cGameObject.SetActive(true);
+            cGV.I.sITEM[index01].cSpriteRenderer.enabled = false;
+            cGV.I.sITEM[index01].cAnimator.enabled = false;
+            cGV.I.sITEM[index01].cCollider.enabled = false;
+            cGV.I.sITEM[index01].cRigidBody.gravityScale = 0.0f;
+            cGV.I.sITEM[index01].cRigidBody.velocity = Vector2.zero;
+        }
+        cGV.I.vItemNum = null;
+        cGV.I.vItemNum = new int[cGV.MAX_ITEM_NUM];
+        if (cGV.I.vItemNum == null) {
+            cGV.I.QuitProcess("Error::vItemNum is null");
+            return false;
+        }
         return true;
     }
     public bool Initialize_Main() {

@@ -21,6 +21,9 @@ public class cGV
     }   
     public const int vFPS = 60;
 
+    public string vClippingObjectName;
+    public GameObject cClippingObject;
+
     public const int APPLICATION_STATE_MAIN = 0;
     public const int APPLICATION_STATE_CHSL = 1;
     public const int APPLICATION_STATE_GAME = 2;
@@ -118,6 +121,15 @@ public class cGV
     public const int ANIMATION_STATE_DEATH = 5;
     public const int MAX_ANIMATION_STATE_NUM = 6;
     public string[] vAnimationName;
+
+    public const int ITEM_BOMULL = 0;
+    public const int ITEM_HEART = 1;
+    public const int ITEM_STONE = 2;
+    public const int MAX_ITEM_DATA_NUM = 3;
+    public const int MAX_ITEM_NUM = 6;
+    public string[] vItemName;
+    public int[] vItemNum;
+
 
     public const int MAX_MESSAGE_NUM = 64;
     public const int MAX_SUB_MESSAGE_SORT_NUM = 3;
