@@ -185,6 +185,7 @@ public class cInit : MonoBehaviour{
             }
             cGV.I.sCharacter[index01].cRigidBody = null;
             cGV.I.sCharacter[index01].cRigidBody = cGV.I.sCharacter[index01].cGameObject.GetComponent<Rigidbody2D>();
+            cGV.I.sCharacter[index01].cRigidBody.freezeRotation = true;
             if (cGV.I.sCharacter[index01].cRigidBody == null) {
                 cGV.I.QuitProcess("Error::Rigidbody is null");
                 return false;
@@ -224,7 +225,7 @@ public class cInit : MonoBehaviour{
                 cGV.I.sCharacter[index01].vAnimationHash[index02] = Animator.StringToHash(tString01);
             }
             cGV.I.sCharacter[index01].vDirection = 1;
-            cGV.I.sCharacter[index01].vAnimationIndex = 0;
+            
             cGV.I.sCharacter[index01].vLifePoint = 0;
             cGV.I.sCharacter[index01].vRunSpeed = 200.0f;
             cGV.I.sCharacter[index01].vJumpSpeed = 250.0f;

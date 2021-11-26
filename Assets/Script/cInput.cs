@@ -35,7 +35,7 @@ public class cInput : MonoBehaviour
     }
     public void GameInputProcess() {
         float tValueX;
-        float tValueY;
+        //float tValueY;
         Vector3 tVector3;
         Vector2 tVector2;
         if (!cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.activeSelf) {//true상태인지 확인
@@ -45,69 +45,35 @@ public class cInput : MonoBehaviour
         tValueX = 0.0f;
         tValueX = Input.GetAxisRaw("Horizontal");//입력값 백터값으로 저장
 
-        /*이 구문의 위치를 잘 생각 할 것*/
 
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_HIT) {//맞으면죽음
-            tVector3.x = 0.0f;
-            tVector3.y = 0.0f;
-            tVector3.z = 0.0f;
-            cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector3; //캐릭터 정지
-            if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_HIT_END, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false)) {//메시지에 hitend가 있으면
-                if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_DEATH, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false)) {
-
-                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_DEATH, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                } else {
-                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                }
-            }
-            return;
-        }
-//1111/1159
-        if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_COLLISION, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false)) {
-            if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex != cGV.ANIMATION_STATE_JUMP) {
-                if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_FALL) {//
-                    tVector2.x = 0.0f;
-                    tVector2.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].vJumpSpeed;
-                    cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);
-                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_JUMP, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                } else {
-                    cGV.I.SetAnimation(cGV.ANIMATION_STATE_HIT, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                    tVector2.x = 0.0f;
-                    tVector2.y = 0.0f;
-                    cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector2;
-                }
-            }
-            return;
-        }
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_JUMP) {
-            if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_FALL, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false) == true) {
-                cGV.I.SetAnimation(cGV.ANIMATION_STATE_FALL, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                return;
-            }
-        }//Fall
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_FALL) {
-            if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_CLIPPING, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false) == true) {
-                cGV.I.SetAnimation(cGV.ANIMATION_STATE_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
-                return;
-            }
-        }
-
-        //11171853
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {
-            if (Input.GetKey(KeyCode.Space)) {//점프
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_RUN) {//IDLE or RUN이고
+            if (Input.GetKey(KeyCode.Space)) {//점프키 누르면
                 tVector2.x = 0.0f;
                 tVector2.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].vJumpSpeed;
-                cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);
-                cGV.I.SetAnimation(cGV.ANIMATION_STATE_JUMP, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
+                cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);//가속주고
+                cGV.I.SetAnimation(cGV.ANIMATION_STATE_JUMP, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);//JUMP애니메이션으로 변경
                 return;
             }
-            if (tValueX == 1.0f || tValueX == -1.0f) {//애니메이션 상태가 걷거나 기본상태이고 입력값이 좌(-1) 또는 우(1) 일때
+            if (tValueX == 1.0f || tValueX == -1.0f) {//입력값이 좌(-1) 또는 우(1) 일때
                 cGV.I.SetAnimation(cGV.ANIMATION_STATE_RUN, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
             } else {
                 cGV.I.SetAnimation(cGV.ANIMATION_STATE_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
             }
         }
 
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_JUMP) {//점프했을때
+            if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_FALL, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false) == true) {//FALL 메시지 받으면 
+                cGV.I.SetAnimation(cGV.ANIMATION_STATE_FALL, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);//FALL애니메이션으로 변경
+                return;
+            }
+        }
+
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_FALL) {//FALL상태이고
+            if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_CLIPPING, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage, null, false) == true) {//바닥에 닫는 메시지 받으면
+                cGV.I.SetAnimation(cGV.ANIMATION_STATE_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);//IDLE애니메이션으로 변경
+                return;
+            }
+        }
 
         if (tValueX == 1.0f || tValueX == -1.0f) {
             cGV.I.SetDirection((int)tValueX, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);//방향선택
@@ -119,10 +85,6 @@ public class cInput : MonoBehaviour
         cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector3;
         //문제 없을 시 이동처리
 
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
-            cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed = 0;
-            return;
-        }
     }
     void Update()
     {

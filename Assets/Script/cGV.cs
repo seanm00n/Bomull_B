@@ -100,7 +100,10 @@ public class cGV
         public float vY;
         public int[,] vMessage;
     }
+
     public CHARACTER[] sCharacter;
+    public CHARACTER[] sITEM;
+    public CHARACTER[,] sItem;
 
     public const int CHARACTER_MAN = 0;
     public const int MAX_CHARACTER_NUM = 1;
@@ -195,6 +198,31 @@ public class cGV
             tCharacter.cGameObject.transform.Rotate(tVector3);
             tCharacter.vDirection = tDirection;
         }
+    }
+    public bool AddMessage(int tSubMessageType, int tSubMessageValue1, int tSubMessageValue2, int[,] tMessage) {
+        int index01;
+        if (tMessage == null) {
+            return false;
+        }
+        for (index01 = 0; index01 < MAX_MESSAGE_NUM; index01++) {
+            if (tMessage[index01, 0] == tSubMessageType &&
+                tMessage[index01, 1] == tSubMessageValue1 &&
+                tMessage[index01, 2] == tSubMessageValue2) {
+                return false;
+            }
+        }
+        for (index01 = 0; index01 < MAX_MESSAGE_NUM; index01++) {
+            if (tMessage[index01, 0] == SUB_MESSAGE_TYPE_NONE) {
+                break;
+            }
+        }
+        if (index01 < MAX_MESSAGE_NUM) {
+            tMessage[index01, 0] = tSubMessageType;
+            tMessage[index01, 1] = tSubMessageValue1;
+            tMessage[index01, 2] = tSubMessageValue2;
+            return true;
+        }
+        return false;
     }
     public bool GetMessage(int tSubMessageType, int tSubMessageValue1, int tSubMessageValue2, int[,] tMessage, int[] tMessage_Out, bool CheckOnly) {
         int index01;
