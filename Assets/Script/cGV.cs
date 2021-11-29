@@ -8,8 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 
-public class cGV
-{
+public class cGV {
     static private cGV getGV;
     static public cGV I {
         get {
@@ -18,23 +17,23 @@ public class cGV
             getGV = new cGV();//기존에 안만들었으면 생성 후 전달
             return getGV;
         }
-    }   
+    }
     public const int vFPS = 60;
 
     public string vClippingObjectName;
     public GameObject cClippingObject;
 
-    public const int APPLICATION_STATE_MAIN = 0;
-    public const int APPLICATION_STATE_CHSL = 1;
-    public const int APPLICATION_STATE_GAME = 2;
-    public const int APPLICATION_STATE_PAUS = 3;
-    public const int APPLICATION_STATE_GAOV = 4;
-    public const int MAX_APPLICATION_STATE_NUM = 5;
+    public const int APPS_MAIN = 0;
+    public const int APPS_CHSL = 1;
+    public const int APPS_GAME = 2;
+    public const int APPS_PAUS = 3;
+    public const int APPS_GAOV = 4;
+    public const int MAX_APPS_NUM = 5;
     public int vApplicationState;
     public bool[] vCheckApplicationState;
 
     public string vCanvasName;
-    public struct TEXT{
+    public struct TEXT {
         public GameObject cTextDir;//중간 디렉토리용
         public GameObject[] cTextGameObject;//오브젝트용
     }
@@ -47,7 +46,7 @@ public class cGV
     public const int TEXT_PAUS_01 = 3;
     public const int TEXT_GAOV_01 = 4;
     public const int MAX_TEXT_NUM = 5;
-    
+
     //텍스트는 Canvas\Text\에서 순서대로 찾아 인식
     public struct BACKGROUND {
         public GameObject cBackgroundDir;//중간 디렉토리용
@@ -80,11 +79,20 @@ public class cGV
     public const int BUTTON_03 = 2;
     public const int BUTTON_04 = 3;
     public const int BUTTON_05 = 4;
-    public const int BUTTON_06= 5;
+    public const int BUTTON_06 = 5;
     public const int BUTTON_07 = 6;
     public const int MAX_BUTTON_NUM = 7;
 
     public GameObject cCanvasGameObject;
+
+
+    public GameObject cButtonLeft;
+    public GameObject cButtonRight;
+    public GameObject cButtonJump;
+
+    public string vButtonLeft;
+    public string vButtonRight;
+    public string vButtonJump;
 
     public struct CHARACTER {
         public GameObject cGameObject;
@@ -104,6 +112,7 @@ public class cGV
         public int[,] vMessage;
     }
 
+
     public CHARACTER[] sCharacter;
     public CHARACTER[] sITEM;
     public CHARACTER[,] sItem;
@@ -113,13 +122,13 @@ public class cGV
     public string[] vCharacterName;
     public int vCharacterIndex;
 
-    public const int ANIMATION_STATE_IDLE = 0;
-    public const int ANIMATION_STATE_RUN = 1;
-    public const int ANIMATION_STATE_JUMP = 2;
-    public const int ANIMATION_STATE_FALL = 3;
-    public const int ANIMATION_STATE_HIT = 4;
-    public const int ANIMATION_STATE_DEATH = 5;
-    public const int MAX_ANIMATION_STATE_NUM = 6;
+    public const int ANIS_IDLE = 0;
+    public const int ANIS_RUN = 1;
+    public const int ANIS_JUMP = 2;
+    public const int ANIS_FALL = 3;
+    public const int ANIS_HIT = 4;
+    public const int ANIS_DEATH = 5;
+    public const int MAX_ANIS_NUM = 6;
     public string[] vAnimationName;
 
     public const int ITEM_BOMULL = 0;
@@ -166,14 +175,14 @@ public class cGV
             return;
         }
 
-        if (tAnimationIndex < 0 || MAX_ANIMATION_STATE_NUM <= tAnimationIndex) {
+        if (tAnimationIndex < 0 || MAX_ANIS_NUM <= tAnimationIndex) {
             QuitProcess("Error::tAnimationIndex out of range");
             return;
         }
         tCharacter.cAnimator.SetBool(vAnimationName[tAnimationIndex], true);
         tCharacter.vAnimationIndex = tAnimationIndex;
 
-        for (index01 = 0; index01 < MAX_ANIMATION_STATE_NUM; index01++) {
+        for (index01 = 0; index01 < MAX_ANIS_NUM; index01++) {
             if (tAnimationIndex != index01)
                 tCharacter.cAnimator.SetBool(vAnimationName[index01], false);
         }
@@ -189,7 +198,7 @@ public class cGV
         if (tCharacter.vAnimationHash == null) {
             return ERROR_VALUE;
         }
-        for (index01 = 0; index01 < MAX_ANIMATION_STATE_NUM; index01++) {
+        for (index01 = 0; index01 < MAX_ANIS_NUM; index01++) {
             if (tCharacter.cAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash == tCharacter.vAnimationHash[index01]) {
                 return index01;
             }
