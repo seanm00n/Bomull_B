@@ -16,7 +16,7 @@ public class cInit : MonoBehaviour{
     public bool Initialize() {
         cGV.I.vApplicationState = 0;
         cGV.I.vCheckApplicationState = null;
-        cGV.I.vCheckApplicationState = new bool[cGV.MAX_APPLICATION_STATE_NUM];
+        cGV.I.vCheckApplicationState = new bool[cGV.MAX_APPS_NUM];
 
         int index01;
         cGV.I.vCanvasName = "Canvas";
@@ -138,7 +138,34 @@ public class cInit : MonoBehaviour{
             cGV.I.sButton.cButtonComponent[index01] = cGV.I.sButton.cButtonGameObject[index01].transform.GetComponent<Button>();//오브젝트의 컴포넌트 찾고
             cGV.I.sButton.cButtonGameObject[index01].SetActive(false);//컨트롤 할땐 오브젝트로
         }
-        
+        //UI
+        cGV.I.vButtonLeft = "ButtonLeft";
+        cGV.I.cButtonLeft = null;
+        cGV.I.cButtonLeft = GameObject.Find(cGV.I.vButtonLeft);
+        if (cGV.I.cButtonLeft == null) {
+            cGV.I.QuitProcess("Error::Left Button is null");
+            return false;
+        }
+        cGV.I.cButtonLeft.SetActive(false);
+
+        cGV.I.vButtonRight = "ButtonRight";
+        cGV.I.cButtonRight = null;
+        cGV.I.cButtonRight = GameObject.Find(cGV.I.vButtonRight);
+        if (cGV.I.cButtonRight == null) {
+            cGV.I.QuitProcess("Error::Right Button is null");
+            return false;
+        }
+        cGV.I.cButtonRight.SetActive(false);
+
+        cGV.I.vButtonJump = "ButtonJump";
+        cGV.I.cButtonJump = null;
+        cGV.I.cButtonJump = GameObject.Find(cGV.I.vButtonJump);
+        if (cGV.I.cButtonJump == null) {
+            cGV.I.QuitProcess("Error::Jump Button is null");
+            return false;
+        }
+        cGV.I.cButtonJump.SetActive(false);
+
         return true;
     }
     public bool Initialize_Character() {
@@ -170,14 +197,14 @@ public class cInit : MonoBehaviour{
         }
 
         cGV.I.vAnimationName = null;
-        cGV.I.vAnimationName = new string[cGV.MAX_ANIMATION_STATE_NUM];
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_IDLE] = "Idle";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_RUN] = "Run";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_JUMP] = "Jump";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_FALL] = "Fall";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_HIT] = "Hit";
-        cGV.I.vAnimationName[cGV.ANIMATION_STATE_DEATH] = "Death";
-        for (index01 = 0; index01 < cGV.MAX_ANIMATION_STATE_NUM; index01++) {
+        cGV.I.vAnimationName = new string[cGV.MAX_ANIS_NUM];
+        cGV.I.vAnimationName[cGV.ANIS_IDLE] = "Idle";
+        cGV.I.vAnimationName[cGV.ANIS_RUN] = "Run";
+        cGV.I.vAnimationName[cGV.ANIS_JUMP] = "Jump";
+        cGV.I.vAnimationName[cGV.ANIS_FALL] = "Fall";
+        cGV.I.vAnimationName[cGV.ANIS_HIT] = "Hit";
+        cGV.I.vAnimationName[cGV.ANIS_DEATH] = "Death";
+        for (index01 = 0; index01 < cGV.MAX_ANIS_NUM; index01++) {
             if (cGV.I.vAnimationName[index01] == null) {
                 cGV.I.QuitProcess("Error::AnimationName is null");
                 return false;
@@ -233,7 +260,7 @@ public class cInit : MonoBehaviour{
             if (cGV.I.sCharacter[index01].vAnimationHash == null) {
                 return false;
             }
-            for (index02 = 0; index02 < cGV.MAX_ANIMATION_STATE_NUM; index02++) {
+            for (index02 = 0; index02 < cGV.MAX_ANIS_NUM; index02++) {
                 tString01 = string.Format("Base Layer.{0}", cGV.I.vAnimationName[index02]);
                 cGV.I.sCharacter[index01].vAnimationHash[index02] = Animator.StringToHash(tString01);
             }
@@ -257,44 +284,44 @@ public class cInit : MonoBehaviour{
         return true;
     }
     public bool Initialize_Main() {
-        cGV.I.vApplicationState = cGV.APPLICATION_STATE_MAIN;
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_MAIN] = true;
+        cGV.I.vApplicationState = cGV.APPS_MAIN;
+        cGV.I.vCheckApplicationState[cGV.APPS_MAIN] = true;
         return true;
     }
     public void Destroy_Main() {
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_MAIN] = false;
+        cGV.I.vCheckApplicationState[cGV.APPS_MAIN] = false;
     }
     public bool Initialize_CharacterSelect() {
-        cGV.I.vApplicationState = cGV.APPLICATION_STATE_CHSL;
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_CHSL] = true;
+        cGV.I.vApplicationState = cGV.APPS_CHSL;
+        cGV.I.vCheckApplicationState[cGV.APPS_CHSL] = true;
         return true;
     }
     public void Destroy_Character_Select() {
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_CHSL] = false;
+        cGV.I.vCheckApplicationState[cGV.APPS_CHSL] = false;
     }
     public bool Initialize_Game() {
-        cGV.I.vApplicationState = cGV.APPLICATION_STATE_GAME;
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAME] = true;
+        cGV.I.vApplicationState = cGV.APPS_GAME;
+        cGV.I.vCheckApplicationState[cGV.APPS_GAME] = true;
         return true;
     }
     public void Destroy_Game() {
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAME] = false;
+        cGV.I.vCheckApplicationState[cGV.APPS_GAME] = false;
     }
     public bool Initialize_GameOver() {
-        cGV.I.vApplicationState = cGV.APPLICATION_STATE_GAOV;
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAOV] = true;
+        cGV.I.vApplicationState = cGV.APPS_GAOV;
+        cGV.I.vCheckApplicationState[cGV.APPS_GAOV] = true;
         return true;
     }
     public void Destroy_GameOver() {
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_GAOV] = false;
+        cGV.I.vCheckApplicationState[cGV.APPS_GAOV] = false;
     }
     public bool Initialize_Pause() {
-        cGV.I.vApplicationState = cGV.APPLICATION_STATE_PAUS;
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_PAUS] = true;
+        cGV.I.vApplicationState = cGV.APPS_PAUS;
+        cGV.I.vCheckApplicationState[cGV.APPS_PAUS] = true;
         return true;
     }
     public void Destroy_Pause() {
-        cGV.I.vCheckApplicationState[cGV.APPLICATION_STATE_PAUS] = false;
+        cGV.I.vCheckApplicationState[cGV.APPS_PAUS] = false;
     }
     void Awake() {
         getInit = null;

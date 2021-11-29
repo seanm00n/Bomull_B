@@ -5,13 +5,13 @@ using UnityEngine;
 public class cCC : MonoBehaviour
 {
     public void OnCollisionEnter2D(Collision2D tCollision) {
-        if (cGV.I.vApplicationState != cGV.APPLICATION_STATE_GAME) {
+        if (cGV.I.vApplicationState != cGV.APPS_GAME) {
             return;
         }
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_DEATH) {
             return;
         }
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_FALL && tCollision.gameObject == cGV.I.cClippingObject) {
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_FALL && tCollision.gameObject == cGV.I.cClippingObject) {
             cGV.I.AddMessage(cGV.SUB_MESSAGE_TYPE_CLIPPING, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage);
         }
         int index01, index02;
@@ -36,10 +36,10 @@ public class cCC : MonoBehaviour
 
     }
     public void OnCollisionExit2D(Collision2D tCollision) {
-        if (cGV.I.vApplicationState != cGV.APPLICATION_STATE_GAME) {
+        if (cGV.I.vApplicationState != cGV.APPS_GAME) {
             return;
         }
-        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_DEATH) {
             return;
         }
         int index01, index02;

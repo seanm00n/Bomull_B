@@ -8,7 +8,7 @@ public class cIC : MonoBehaviour
         int index01 = 0, index02 = 0, tDirection = 0;
         Vector3 tVector3;
         Vector2 tVector2;
-        if (cGV.I.vApplicationState != cGV.APPLICATION_STATE_GAME) {
+        if (cGV.I.vApplicationState != cGV.APPS_GAME) {
             return;
         }
         if (tCollision.gameObject != cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject) {//충돌 대상이 캐릭터가 아니면
@@ -19,7 +19,7 @@ public class cIC : MonoBehaviour
                 if (!cGV.I.sItem[index01, index02].cGameObject.activeSelf) {
                     continue;
                 }
-                if (cGV.I.sItem[index01, index02].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
+                if (cGV.I.sItem[index01, index02].vAnimationIndex == cGV.ANIS_DEATH) {
                     continue;
                 }
                 if (cGV.I.sItem[index01, index02].cGameObject == gameObject) {
@@ -35,7 +35,7 @@ public class cIC : MonoBehaviour
             tVector3.y = cGV.I.sItem[index01, index02].cRigidBody.velocity.y;
             tVector3.z = 0.0f;
             cGV.I.sItem[index01, index02].cRigidBody.velocity = tVector3;
-            cGV.I.SetAnimation(cGV.ANIMATION_STATE_HIT, ref cGV.I.sItem[index01, index02]);
+            cGV.I.SetAnimation(cGV.ANIS_HIT, ref cGV.I.sItem[index01, index02]);
             tDirection = (cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x < cGV.I.sItem[index01, index02].cGameObject.transform.position.x) ? -1 : 1;
             cGV.I.SetDirection(tDirection, ref cGV.I.sItem[index01, index02]);
             tVector2.x = (cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.transform.position.x < cGV.I.sItem[index01, index02].cGameObject.transform.position.x) ?
@@ -47,7 +47,7 @@ public class cIC : MonoBehaviour
     }
     public void OnCollisionExit2D(Collision2D tCollision) {
         int index01 = 0, index02 = 0;
-        if (cGV.I.vApplicationState != cGV.APPLICATION_STATE_GAME) {
+        if (cGV.I.vApplicationState != cGV.APPS_GAME) {
             return;
         }
         if (tCollision.gameObject != cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject) {
@@ -58,7 +58,7 @@ public class cIC : MonoBehaviour
                 if (!cGV.I.sItem[index01, index02].cGameObject.activeSelf) {
                     continue;
                 }
-                if (cGV.I.sItem[index01, index02].vAnimationIndex == cGV.ANIMATION_STATE_DEATH) {
+                if (cGV.I.sItem[index01, index02].vAnimationIndex == cGV.ANIS_DEATH) {
                     continue;
                 }
                 if (cGV.I.sItem[index01, index02].cGameObject == gameObject) {

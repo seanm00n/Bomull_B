@@ -27,7 +27,7 @@ public class cDraw : MonoBehaviour
         }
         
         switch (cGV.I.vApplicationState) {
-            case cGV.APPLICATION_STATE_MAIN:
+            case cGV.APPS_MAIN:
                 allTrue();
                 cGV.I.sText.cTextGameObject[cGV.TEXT_CHSL_01].SetActive(false);
                 cGV.I.sText.cTextGameObject[cGV.TEXT_PAUS_01].SetActive(false);
@@ -41,7 +41,7 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_07].SetActive(false);
                 cGV.I.sCharacter[cGV.CHARACTER_MAN].cGameObject.SetActive(false);
                 break;
-            case cGV.APPLICATION_STATE_CHSL:
+            case cGV.APPS_CHSL:
                 allTrue();
                 cGV.I.sText.cTextGameObject[cGV.TEXT_MAIN_01].SetActive(false);
                 cGV.I.sText.cTextGameObject[cGV.TEXT_MAIN_02].SetActive(false);
@@ -51,7 +51,7 @@ public class cDraw : MonoBehaviour
                 cGV.I.sBackground.cBackgroundBottomDir.SetActive(false);
                 cGV.I.sButton.cButtonDir.SetActive(false);
                 break;
-            case cGV.APPLICATION_STATE_GAME:
+            case cGV.APPS_GAME:
                 allTrue();
                 cGV.I.sText.cTextDir.SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_01].SetActive(false);
@@ -60,8 +60,12 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_05].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_06].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_07].SetActive(false);
+                //
+                cGV.I.cButtonJump.SetActive(true);
+                cGV.I.cButtonRight.SetActive(true);
+                cGV.I.cButtonLeft.SetActive(true);
                 break;
-            case cGV.APPLICATION_STATE_PAUS:
+            case cGV.APPS_PAUS:
                 //회색처리, 게임정지
                 allTrue();
                 cGV.I.sText.cTextGameObject[cGV.TEXT_MAIN_01].SetActive(false);
@@ -74,7 +78,7 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_06].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_07].SetActive(false);
                 break;
-            case cGV.APPLICATION_STATE_GAOV:
+            case cGV.APPS_GAOV:
                 allTrue();
                 cGV.I.sText.cTextGameObject[cGV.TEXT_MAIN_01].SetActive(false);
                 cGV.I.sText.cTextGameObject[cGV.TEXT_MAIN_02].SetActive(false);
@@ -88,6 +92,9 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_04].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_05].SetActive(false);
                 cGV.I.sCharacter[cGV.CHARACTER_MAN].cGameObject.SetActive(false);
+                cGV.I.cButtonJump.SetActive(false);
+                cGV.I.cButtonRight.SetActive(false);
+                cGV.I.cButtonLeft.SetActive(false);
                 break;
         }
 
