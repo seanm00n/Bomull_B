@@ -7,6 +7,7 @@ using System.Text;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
+using UnityEngine.EventSystems;
 
 public class cGV {
     static private cGV getGV;
@@ -86,18 +87,27 @@ public class cGV {
     public GameObject cCanvasGameObject;
 
 
-    public GameObject cButtonLeft;
-    public GameObject cButtonRight;
-    public GameObject cButtonJump;
+    public struct UIBUTTON {
+        public GameObject cUIButtonDir;
+        public GameObject[] cUIButtonGameObject;
+        public Button[] cUIButtonComponent;
+    }
+    public string vUIButtonDirName;
 
-    public string vButtonLeft;
-    public string vButtonRight;
-    public string vButtonJump;
+    public delegate void ClickButton();
+    public UIBUTTON sUIButton;
+    public const int UI_MOVE_LEFT = 0;
+    public const int UI_MOVE_RIGHT = 1;
+    public const int UI_JUMP = 2;
+    public const int MAX_UIBUTTON_NUM = 3;
+    public bool vCheckMoveLeft;
+    public bool vCheckMoveRight;
+    public ClickButton[] ClickUIButtons;
 
     public struct CHARACTER {
         public GameObject cGameObject;
         public Rigidbody2D cRigidBody;
-        public BoxCollider2D cCollider; //cCC, cInit.Initialize_Character() 수정
+        public BoxCollider2D cCollider;
         public SpriteRenderer cSpriteRenderer;
         public Animator cAnimator;
         public int vDirection;
@@ -166,7 +176,76 @@ public class cGV {
         Application.Quit();
         #endif
     }
+    public void SetDefaultButtonColor(Button tButton) {
+        Color tColor;
+        ColorBlock tColorBlock;
 
+        if(tButton == null) {
+            return;
+        }
+        tColorBlock = tButton.colors;
+        tColor.r = 0.8f;
+        tColor.g = 0.8f;
+        tColor.b = 0.8f;
+        tColor.a = 1.0f;
+        tColorBlock.normalColor = tColor;
+        tColor.r = 1.0f;
+        tColor.g = 1.0f;
+        tColor.b = 1.0f;
+        tColor.a = 1.0f;
+        tColorBlock.highlightedColor = tColor;
+        tColor.r = 0.9f;
+        tColor.g = 0.9f;
+        tColor.b = 0.9f;
+        tColor.a = 1.0f;
+        tColorBlock.pressedColor = tColor;
+        tColor.r = 0.5f;
+        tColor.g = 0.5f;
+        tColor.b = 0.5f;
+        tColor.a = 1.5f;
+        tColorBlock.disabledColor = tColor;
+        tButton.colors = tColorBlock;
+    }
+
+    public void ClickUIButtonMoveLeft() {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+    public void ClickUIButtonMoveRight() {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    
+    
+    public void ClickUIButtonJump() {
+
+        if (cGV.I.sCharacter[cGV.I.vCharacterIndex].cGameObject.activeSelf) {
+            if(cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_IDLE || cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_RUN) {
+                Vector2 tVector2;
+                tVector2.x = 0.0f;
+                tVector2.y = cGV.I.sCharacter[cGV.I.vCharacterIndex].vJumpSpeed;
+                cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.AddForce(tVector2,ForceMode2D.Impulse);
+                cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex = cGV.ANIS_JUMP;
+            }
+        }
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public bool CheckClickOverUI() {
+        int index01;
+        Touch tTouch;
+        if (EventSystem.current.IsPointerOverGameObject()){
+            return true;
+        }
+        for(index01 = 0; index01 < Input.touchCount; index01++) {
+            tTouch = Input.GetTouch(index01);
+            if(tTouch.phase == TouchPhase.Began) {
+                if (EventSystem.current.IsPointerOverGameObject(tTouch.fingerId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void SetAnimation(int tAnimationIndex, ref CHARACTER tCharacter) {
         int index01;
 

@@ -64,14 +64,14 @@ public class cInput : MonoBehaviour
 
         //Jump---------------------------------------------------------------------------------------//
         if (tGO.vAnimationIndex == cGV.ANIS_IDLE || tGO.vAnimationIndex == cGV.ANIS_RUN) {//IDLE or RUN이고
-            if (/**/) {//점프키 누르면
+            if (true/**/) {//점프키 누르면
                 tVector2.x = 0.0f;
                 tVector2.y = tGO.vJumpSpeed;
                 tGO.cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);//가속주고
                 cGV.I.SetAnimation(cGV.ANIS_JUMP, ref tGO);//JUMP애니메이션으로 변경
                 return;
             }
-            if (/**/) {//입력값이 좌(-1) 또는 우(1) 일때
+            if (true/**/) {//입력값이 좌(-1) 또는 우(1) 일때
                 cGV.I.SetAnimation(cGV.ANIS_RUN, ref tGO);
             } else {
                 cGV.I.SetAnimation(cGV.ANIS_IDLE, ref tGO);
@@ -98,11 +98,14 @@ public class cInput : MonoBehaviour
 
 
         //방향선택----------------------------------------------------------------------------------//
-        if (/**/) {//좌 또는 우 입력시
+        if (true/**/) {//좌 또는 우 입력시
             cGV.I.SetDirection((int)tValueX, ref tGO);
         }
         //------------------------------------------------------------------------------------------//
 
+        if (cGV.I.CheckClickOverUI()) {
+            return;
+        }
         tVector3.x = tValueX * tGO.vRunSpeed;
         tVector3.y = tGO.cRigidBody.velocity.y;
         tVector3.z = 0.0f;

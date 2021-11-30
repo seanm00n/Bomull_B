@@ -7,7 +7,7 @@ public class cLogic : MonoBehaviour
     public void GameLogicProcessCharacter() {
 
         if (cGV.I.sCharacter[cGV.I.vCharacterIndex].vAnimationIndex == cGV.ANIS_JUMP) {
-            Debug.Log(cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity.y);
+            
             if (cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity.y < 0.0f) {
                 cGV.I.AddMessage(cGV.SUB_MESSAGE_TYPE_FALL, 0, 0, cGV.I.sCharacter[cGV.I.vCharacterIndex].vMessage);
             }

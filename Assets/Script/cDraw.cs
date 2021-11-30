@@ -61,9 +61,6 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_06].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_07].SetActive(false);
                 //
-                cGV.I.cButtonJump.SetActive(true);
-                cGV.I.cButtonRight.SetActive(true);
-                cGV.I.cButtonLeft.SetActive(true);
                 break;
             case cGV.APPS_PAUS:
                 //회색처리, 게임정지
@@ -92,9 +89,6 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_04].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_05].SetActive(false);
                 cGV.I.sCharacter[cGV.CHARACTER_MAN].cGameObject.SetActive(false);
-                cGV.I.cButtonJump.SetActive(false);
-                cGV.I.cButtonRight.SetActive(false);
-                cGV.I.cButtonLeft.SetActive(false);
                 break;
         }
 

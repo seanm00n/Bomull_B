@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class cInit : MonoBehaviour{
     static private cInit getInit;
@@ -139,32 +140,6 @@ public class cInit : MonoBehaviour{
             cGV.I.sButton.cButtonGameObject[index01].SetActive(false);//컨트롤 할땐 오브젝트로
         }
         //UI
-        cGV.I.vButtonLeft = "ButtonLeft";
-        cGV.I.cButtonLeft = null;
-        cGV.I.cButtonLeft = GameObject.Find(cGV.I.vButtonLeft);
-        if (cGV.I.cButtonLeft == null) {
-            cGV.I.QuitProcess("Error::Left Button is null");
-            return false;
-        }
-        cGV.I.cButtonLeft.SetActive(false);
-
-        cGV.I.vButtonRight = "ButtonRight";
-        cGV.I.cButtonRight = null;
-        cGV.I.cButtonRight = GameObject.Find(cGV.I.vButtonRight);
-        if (cGV.I.cButtonRight == null) {
-            cGV.I.QuitProcess("Error::Right Button is null");
-            return false;
-        }
-        cGV.I.cButtonRight.SetActive(false);
-
-        cGV.I.vButtonJump = "ButtonJump";
-        cGV.I.cButtonJump = null;
-        cGV.I.cButtonJump = GameObject.Find(cGV.I.vButtonJump);
-        if (cGV.I.cButtonJump == null) {
-            cGV.I.QuitProcess("Error::Jump Button is null");
-            return false;
-        }
-        cGV.I.cButtonJump.SetActive(false);
 
         return true;
     }
@@ -302,10 +277,12 @@ public class cInit : MonoBehaviour{
     public bool Initialize_Game() {
         cGV.I.vApplicationState = cGV.APPS_GAME;
         cGV.I.vCheckApplicationState[cGV.APPS_GAME] = true;
+        cGV.I.sUIButton.cUIButtonDir.SetActive(true);
         return true;
     }
     public void Destroy_Game() {
         cGV.I.vCheckApplicationState[cGV.APPS_GAME] = false;
+        cGV.I.sUIButton.cUIButtonDir.SetActive(false);
     }
     public bool Initialize_GameOver() {
         cGV.I.vApplicationState = cGV.APPS_GAOV;
@@ -322,6 +299,68 @@ public class cInit : MonoBehaviour{
     }
     public void Destroy_Pause() {
         cGV.I.vCheckApplicationState[cGV.APPS_PAUS] = false;
+    }
+    public bool Initialize_UI() {
+        int index01;
+
+        cGV.I.vUIButtonDirName = "UIButton";//
+
+        cGV.I.sUIButton.cUIButtonDir = null;
+        cGV.I.sUIButton.cUIButtonDir = GameObject.Find(cGV.I.vUIButtonDirName);
+        if (cGV.I.sUIButton.cUIButtonDir == null) {
+            cGV.I.QuitProcess("UIButtonDir is null");
+            return false;
+        }
+
+        cGV.I.sUIButton.cUIButtonGameObject = null;
+        cGV.I.sUIButton.cUIButtonGameObject = new GameObject[cGV.MAX_UIBUTTON_NUM];
+        if (cGV.I.sUIButton.cUIButtonGameObject == null) {
+            cGV.I.QuitProcess("UIButtonGameObject is null");
+            return false;
+        }
+        for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
+            cGV.I.sUIButton.cUIButtonGameObject[index01] = null;
+            cGV.I.sUIButton.cUIButtonGameObject[index01] = cGV.I.sUIButton.cUIButtonDir.transform.GetChild(index01).gameObject;
+            if (cGV.I.sUIButton.cUIButtonGameObject[index01] == null) {
+                cGV.I.QuitProcess("UIButtonGameObject instance is null");
+                return false;
+            }
+        }
+        
+
+        cGV.I.sUIButton.cUIButtonComponent = null;
+        cGV.I.sUIButton.cUIButtonComponent = new Button[cGV.MAX_UIBUTTON_NUM];
+        if (cGV.I.sUIButton.cUIButtonComponent == null) {
+            cGV.I.QuitProcess("UIButtonComponent is null");
+            return false;
+        }
+        for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
+            cGV.I.sUIButton.cUIButtonComponent[index01] = null;
+            cGV.I.sUIButton.cUIButtonComponent[index01] = cGV.I.sUIButton.cUIButtonGameObject[index01].GetComponent<Button>();
+            cGV.I.sUIButton.cUIButtonComponent[index01].onClick.AddListener(new UnityEngine.Events.UnityAction(cGV.I.ClickUIButtons[cGV.MAX_UIBUTTON_NUM]));
+            if (cGV.I.sUIButton.cUIButtonComponent[index01] == null) {
+                cGV.I.QuitProcess("UIButtonComponent instance is null");
+                return false;
+            }
+        }
+
+        cGV.I.ClickUIButtons = null;
+        cGV.I.ClickUIButtons = new cGV.ClickButton[cGV.MAX_UIBUTTON_NUM];
+        if (cGV.I.ClickUIButtons == null) {
+            cGV.I.QuitProcess("ClickUIButtons is null");
+            return false;
+        }
+        
+
+        cGV.I.ClickUIButtons[cGV.UI_MOVE_LEFT] = cGV.I.ClickUIButtonMoveLeft;
+        cGV.I.ClickUIButtons[cGV.UI_MOVE_RIGHT] = cGV.I.ClickUIButtonMoveRight;
+        cGV.I.ClickUIButtons[cGV.UI_JUMP] = cGV.I.ClickUIButtonJump;
+
+        cGV.I.vCheckMoveLeft = false;
+        cGV.I.vCheckMoveRight = false;
+        cGV.I.sUIButton.cUIButtonDir.SetActive(false);
+
+        return false;
     }
     void Awake() {
         getInit = null;
