@@ -253,12 +253,6 @@ public class cInit : MonoBehaviour{
         }
         return true;
     }
-    public bool Initialize_Item() {
-        //게임 아이템 오브젝트 및 속성 연결
-        //게임 아이템 초기화
-        //
-        return true;
-    }
     public bool Initialize_Main() {
         cGV.I.vApplicationState = cGV.APPS_MAIN;
         cGV.I.vCheckApplicationState[cGV.APPS_MAIN] = true;
@@ -278,12 +272,12 @@ public class cInit : MonoBehaviour{
     public bool Initialize_Game() {
         cGV.I.vApplicationState = cGV.APPS_GAME;
         cGV.I.vCheckApplicationState[cGV.APPS_GAME] = true;
-        cGV.I.sUIButton.cUIButtonDir.SetActive(true);
+        
         return true;
     }
     public void Destroy_Game() {
         cGV.I.vCheckApplicationState[cGV.APPS_GAME] = false;
-        cGV.I.sUIButton.cUIButtonDir.SetActive(false);
+        
     }
     public bool Initialize_GameOver() {
         cGV.I.vApplicationState = cGV.APPS_GAOV;
@@ -301,68 +295,6 @@ public class cInit : MonoBehaviour{
     public void Destroy_Pause() {
         cGV.I.vCheckApplicationState[cGV.APPS_PAUS] = false;
     }
-    public bool Initialize_UI() {
-        int index01;
-
-        cGV.I.vUIButtonDirName = "UIButton";//
-
-        cGV.I.sUIButton.cUIButtonDir = null;
-        cGV.I.sUIButton.cUIButtonDir = GameObject.Find(cGV.I.vUIButtonDirName);
-        if (cGV.I.sUIButton.cUIButtonDir == null) {
-            cGV.I.QuitProcess("UIButtonDir is null");
-            return false;
-        }
-
-        cGV.I.sUIButton.cUIButtonGameObject = null;
-        cGV.I.sUIButton.cUIButtonGameObject = new GameObject[cGV.MAX_UIBUTTON_NUM];
-        if (cGV.I.sUIButton.cUIButtonGameObject == null) {
-            cGV.I.QuitProcess("UIButtonGameObject is null");
-            return false;
-        }
-        for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
-            cGV.I.sUIButton.cUIButtonGameObject[index01] = null;
-            cGV.I.sUIButton.cUIButtonGameObject[index01] = cGV.I.sUIButton.cUIButtonDir.transform.GetChild(index01).gameObject;
-            if (cGV.I.sUIButton.cUIButtonGameObject[index01] == null) {
-                cGV.I.QuitProcess("UIButtonGameObject instance is null");
-                return false;
-            }
-        }
-        
-
-        cGV.I.sUIButton.cUIButtonComponent = null;
-        cGV.I.sUIButton.cUIButtonComponent = new Button[cGV.MAX_UIBUTTON_NUM];
-        if (cGV.I.sUIButton.cUIButtonComponent == null) {
-            cGV.I.QuitProcess("UIButtonComponent is null");
-            return false;
-        }
-        for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
-            cGV.I.sUIButton.cUIButtonComponent[index01] = null;
-            cGV.I.sUIButton.cUIButtonComponent[index01] = cGV.I.sUIButton.cUIButtonGameObject[index01].GetComponent<Button>();
-            cGV.I.sUIButton.cUIButtonComponent[index01].onClick.AddListener(new UnityEngine.Events.UnityAction(cGV.I.ClickUIButtons[cGV.MAX_UIBUTTON_NUM]));
-            if (cGV.I.sUIButton.cUIButtonComponent[index01] == null) {
-                cGV.I.QuitProcess("UIButtonComponent instance is null");
-                return false;
-            }
-        }
-
-        cGV.I.ClickUIButtons = null;
-        cGV.I.ClickUIButtons = new cGV.ClickButton[cGV.MAX_UIBUTTON_NUM];
-        if (cGV.I.ClickUIButtons == null) {
-            cGV.I.QuitProcess("ClickUIButtons is null");
-            return false;
-        }
-        
-
-        cGV.I.ClickUIButtons[cGV.UI_MOVE_LEFT] = cGV.I.ClickUIButtonMoveLeft;
-        cGV.I.ClickUIButtons[cGV.UI_MOVE_RIGHT] = cGV.I.ClickUIButtonMoveRight;
-        cGV.I.ClickUIButtons[cGV.UI_JUMP] = cGV.I.ClickUIButtonJump;
-
-        cGV.I.vCheckMoveLeft = false;
-        cGV.I.vCheckMoveRight = false;
-        cGV.I.sUIButton.cUIButtonDir.SetActive(false);
-
-        return false;
-    }
     void Awake() {
         getInit = null;
         getInit = this;
@@ -373,6 +305,5 @@ public class cInit : MonoBehaviour{
         Application.targetFrameRate = cGV.vFPS;
         Initialize();
         Initialize_Character();
-        Initialize_Item();
     }
 }

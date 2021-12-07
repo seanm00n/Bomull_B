@@ -15,10 +15,7 @@ public class cLogic : MonoBehaviour
         }
     }
     public void GameLogicProcessItem() {
-        //cGV.I.sITEM[0].cGameObject.SetActive(true);1
-        //아이템 액티브 온
-        //충돌 시 삭제
-        //아이템 이동 경로 및 생성
+
     }
     void Update() {
         if (cGV.I.vApplicationState < 0 || cGV.I.vApplicationState >= cGV.MAX_APPS_NUM) {

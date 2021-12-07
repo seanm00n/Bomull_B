@@ -88,24 +88,6 @@ public class cGV {
 
     public GameObject cCanvasGameObject;
 
-
-    public struct UIBUTTON {
-        public GameObject cUIButtonDir;
-        public GameObject[] cUIButtonGameObject;
-        public Button[] cUIButtonComponent;
-    }
-    public string vUIButtonDirName;
-
-    public delegate void ClickButton();
-    public UIBUTTON sUIButton;
-    public const int UI_MOVE_LEFT = 0;
-    public const int UI_MOVE_RIGHT = 1;
-    public const int UI_JUMP = 2;
-    public const int MAX_UIBUTTON_NUM = 3;
-    public bool vCheckMoveLeft;
-    public bool vCheckMoveRight;
-    public ClickButton[] ClickUIButtons;
-
     public struct CHARACTER {
         public GameObject cGameObject;
         public Rigidbody2D cRigidBody;
@@ -126,8 +108,6 @@ public class cGV {
 
 
     public CHARACTER[] sCharacter;
-    public CHARACTER[] sITEM;
-    public CHARACTER[,] sItem;
 
     public const int CHARACTER_MAN = 0;
     public const int MAX_CHARACTER_NUM = 1;
@@ -143,13 +123,7 @@ public class cGV {
     public const int MAX_ANIS_NUM = 6;
     public string[] vAnimationName;
 
-    public const int ITEM_BOMULL = 0;
-    public const int ITEM_HEART = 1;
-    public const int ITEM_STONE = 2;
-    public const int MAX_ITEM_DATA_NUM = 3;
-    public const int MAX_ITEM_NUM = 6;
-    public string[] vItemName;
-    public int[] vItemNum;
+
 
 
     public const int MAX_MESSAGE_NUM = 64;
