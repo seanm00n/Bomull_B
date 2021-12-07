@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class cInput : MonoBehaviour
+public class cInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public void CharacterSelectInputProcess() {
         int index01;
@@ -34,8 +35,36 @@ public class cInput : MonoBehaviour
         }
     }
 
-    public void GameInputProcess() {
+    public bool inputLR = false;
+    public bool inputJump = false;
+    public float tValueX = 0.0f;
+    public float tValueY = 0.0f;
+    public Vector2 tVector2;
 
+    public void OnPointerDown(PointerEventData eventData) {
+        Debug.Log("KeyDown");
+        inputLR = true;
+    }
+    public void OnPointerUp(PointerEventData eventData) {
+        Debug.Log("KeyUp");
+        inputLR = false;
+    }
+    public void RButton() {
+        Debug.Log("R");
+        tValueX = 1.0f;
+    }
+    public void LButton() {
+        Debug.Log("L");
+        tValueX = -1.0f;
+    }
+    public void GameInputProcess() {
+        if (inputLR) {
+            this.tVector2.x = cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed * tValueX;
+            this.tVector2.y = 0.0f;
+        } else {
+            
+        }
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector2;
     }
     void Update()
     {
