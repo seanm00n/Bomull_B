@@ -14,7 +14,7 @@ public class cInit : MonoBehaviour{
             return getInit;
         }
     }
-    //merge test
+    //merge test2
     public bool Initialize() {
         cGV.I.vApplicationState = 0;
         cGV.I.vCheckApplicationState = null;
