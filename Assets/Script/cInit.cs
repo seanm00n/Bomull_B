@@ -326,7 +326,16 @@ public class cInit : MonoBehaviour{
                 return false;
             }
         }
-        
+
+        cGV.I.ClickUIButtons = null;
+        cGV.I.ClickUIButtons = new cGV.ClickButton[cGV.MAX_UIBUTTON_NUM];
+        if (cGV.I.ClickUIButtons == null) {
+            cGV.I.QuitProcess("ClickUIButtons is null");
+            return false;
+        }
+        cGV.I.ClickUIButtons[cGV.UI_MOVE_LEFT] = cGV.I.ClickUIButtonMoveLeft;
+        cGV.I.ClickUIButtons[cGV.UI_MOVE_RIGHT] = cGV.I.ClickUIButtonMoveRight;
+        cGV.I.ClickUIButtons[cGV.UI_JUMP] = cGV.I.ClickUIButtonJump;
 
         cGV.I.sUIButton.cUIButtonComponent = null;
         cGV.I.sUIButton.cUIButtonComponent = new Button[cGV.MAX_UIBUTTON_NUM];
@@ -337,24 +346,12 @@ public class cInit : MonoBehaviour{
         for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
             cGV.I.sUIButton.cUIButtonComponent[index01] = null;
             cGV.I.sUIButton.cUIButtonComponent[index01] = cGV.I.sUIButton.cUIButtonGameObject[index01].GetComponent<Button>();
-            cGV.I.sUIButton.cUIButtonComponent[index01].onClick.AddListener(new UnityEngine.Events.UnityAction(cGV.I.ClickUIButtons[cGV.MAX_UIBUTTON_NUM]));
+            cGV.I.sUIButton.cUIButtonComponent[index01].onClick.AddListener(new UnityEngine.Events.UnityAction(cGV.I.ClickUIButtons[2]));
             if (cGV.I.sUIButton.cUIButtonComponent[index01] == null) {
                 cGV.I.QuitProcess("UIButtonComponent instance is null");
                 return false;
             }
         }
-
-        cGV.I.ClickUIButtons = null;
-        cGV.I.ClickUIButtons = new cGV.ClickButton[cGV.MAX_UIBUTTON_NUM];
-        if (cGV.I.ClickUIButtons == null) {
-            cGV.I.QuitProcess("ClickUIButtons is null");
-            return false;
-        }
-        
-
-        cGV.I.ClickUIButtons[cGV.UI_MOVE_LEFT] = cGV.I.ClickUIButtonMoveLeft;
-        cGV.I.ClickUIButtons[cGV.UI_MOVE_RIGHT] = cGV.I.ClickUIButtonMoveRight;
-        cGV.I.ClickUIButtons[cGV.UI_JUMP] = cGV.I.ClickUIButtonJump;
 
         cGV.I.vCheckMoveLeft = false;
         cGV.I.vCheckMoveRight = false;
@@ -373,5 +370,6 @@ public class cInit : MonoBehaviour{
         Initialize();
         Initialize_Character();
         Initialize_Item();
+        Initialize_UI();
     }
 }

@@ -35,15 +35,31 @@ public class cInput : MonoBehaviour
     }
 
     public void GameInputProcess() {
-
         float tValueX;
+        tValueX = 0.0f;
         Vector2 tVector2;
         Vector3 tVector3;
         cGV.CHARACTER tGO = cGV.I.sCharacter[cGV.I.vCharacterIndex];
-        tValueX = Input.GetAxisRaw("Horizontal");//입력값 백터값으로 저장
+        #if UNITY_STANDALONE
+            Input.GetAxisRaw("Horizontal");
+            Input.GetAxisRaw("Vertical");
+        #endif
+        if (cGV.I.vCheckMoveLeft) {
+            tValueX = 1.0f;
+        }
+        if (cGV.I.vCheckMoveRight) {
+            tValueX = -1.0f;
+        }
+    #if UNITY_STANDALONE
+        if(!cGV.I.vCheckMoveRight && !cGV.I.vCheckMoveLeft){
+            tValueX = 0.0f;
+        }
+    #else//위치 맞나?
+    #endif
+
 
         //Item과 충돌 시-------------------------------------------------------------------------------//
-        if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_COLLISION, 0, 0, tGO.vMessage, null, false) == true) {
+/*        if (cGV.I.GetMessage(cGV.SUB_MESSAGE_TYPE_COLLISION, 0, 0, tGO.vMessage, null, false) == true) {
             if (tGO.vAnimationIndex != cGV.ANIS_JUMP) {//Jump는 충돌을 무시한다
                 if (tGO.vAnimationIndex == cGV.ANIS_FALL) {//떨어지면서 몬스터를 밟았다
                     tVector2.x = 0.0f;
@@ -58,20 +74,20 @@ public class cInput : MonoBehaviour
                 }
             }
             return;
-        }
+        }*/
         //---------------------------------------------------------------------------------------------//
 
 
         //Jump---------------------------------------------------------------------------------------//
         if (tGO.vAnimationIndex == cGV.ANIS_IDLE || tGO.vAnimationIndex == cGV.ANIS_RUN) {//IDLE or RUN이고
-            if (true/**/) {//점프키 누르면
+            if (true) {//점프키 누르면//수정해야함
                 tVector2.x = 0.0f;
                 tVector2.y = tGO.vJumpSpeed;
                 tGO.cRigidBody.AddForce(tVector2, ForceMode2D.Impulse);//가속주고
                 cGV.I.SetAnimation(cGV.ANIS_JUMP, ref tGO);//JUMP애니메이션으로 변경
                 return;
             }
-            if (true/**/) {//입력값이 좌(-1) 또는 우(1) 일때
+            if (tValueX == 1.0f || tValueX == -1.0f) {//입력값이 좌(-1) 또는 우(1) 일때
                 cGV.I.SetAnimation(cGV.ANIS_RUN, ref tGO);
             } else {
                 cGV.I.SetAnimation(cGV.ANIS_IDLE, ref tGO);
@@ -98,7 +114,7 @@ public class cInput : MonoBehaviour
 
 
         //방향선택----------------------------------------------------------------------------------//
-        if (true/**/) {//좌 또는 우 입력시
+        if (tValueX == 1.0f || tValueX == -1.0f) {//좌 또는 우 입력시
             cGV.I.SetDirection((int)tValueX, ref tGO);
         }
         //------------------------------------------------------------------------------------------//
@@ -111,6 +127,7 @@ public class cInput : MonoBehaviour
         tVector3.z = 0.0f;
         tGO.cRigidBody.velocity = tVector3;
         //문제 없을 시 이동처리
+
 
     }
     void Update()

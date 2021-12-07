@@ -60,6 +60,7 @@ public class cDraw : MonoBehaviour
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_05].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_06].SetActive(false);
                 cGV.I.sButton.cButtonGameObject[cGV.BUTTON_07].SetActive(false);
+                cGV.I.sUIButton.cUIButtonDir.SetActive(true);
                 //
                 break;
             case cGV.APPS_PAUS:
