@@ -48,6 +48,13 @@ public class cInit : MonoBehaviour{
             return false;
         }
 
+        cGV.I.sText.cText = null;
+        cGV.I.sText.cText = new Text[cGV.MAX_TEXT_NUM];
+        if (cGV.I.sText.cText == null) {
+            cGV.I.QuitProcess("Error::Text component is null");
+            return false;
+        }
+
         for (index01 = 0; index01 < cGV.MAX_TEXT_NUM; index01++) {
             cGV.I.sText.cTextGameObject[index01] = null;
             cGV.I.sText.cTextGameObject[index01] = cGV.I.sText.cTextDir.transform.GetChild(index01).gameObject; //index01번째 오브젝트
@@ -55,6 +62,8 @@ public class cInit : MonoBehaviour{
                 cGV.I.QuitProcess("Error::Text Child is null");
                 return false;
             }
+            cGV.I.sText.cText[index01] = null;
+            cGV.I.sText.cText[index01] = cGV.I.sText.cTextGameObject[index01].GetComponent<Text>();//to Text Type <> Class transform
         }
         cGV.I.sText.cTextDir.SetActive(false);
         
@@ -135,13 +144,45 @@ public class cInit : MonoBehaviour{
             return false;
         }
 
-        for(index01 = 0; index01 < cGV.MAX_BUTTON_NUM; index01++) {
+        for (index01 = 0; index01 < cGV.MAX_BUTTON_NUM; index01++) {
             cGV.I.sButton.cButtonGameObject[index01] = cGV.I.sButton.cButtonDir.transform.GetChild(index01).gameObject;//오브젝트 번호순으로 찾고
             cGV.I.sButton.cButtonComponent[index01] = cGV.I.sButton.cButtonGameObject[index01].transform.GetComponent<Button>();//오브젝트의 컴포넌트 찾고
             cGV.I.sButton.cButtonGameObject[index01].SetActive(false);//컨트롤 할땐 오브젝트로
         }
-        //UI
 
+        //UI
+        cGV.I.vUIButtonDirName = "UIButton";
+        cGV.I.sUIButton.cUIButtonDir = null;
+        cGV.I.sUIButton.cUIButtonDir = cGV.I.cCanvasGameObject.transform.Find(cGV.I.vUIButtonDirName).gameObject;
+        if(cGV.I.sUIButton.cUIButtonDir == null) {
+            cGV.I.QuitProcess("Error::UIButton Dir is null");
+            return false;
+        }
+
+        cGV.I.sUIButton.cUIButtonGameObject = null;
+        cGV.I.sUIButton.cUIButtonGameObject = new GameObject[cGV.MAX_UIBUTTON_NUM];
+        if(cGV.I.sUIButton.cUIButtonGameObject == null) {
+            cGV.I.QuitProcess("Error::UIButton GameObject is null");
+            return false;
+        }
+
+        cGV.I.sUIButton.cUIButtonComponent = null;
+        cGV.I.sUIButton.cUIButtonComponent = new Button[cGV.MAX_UIBUTTON_NUM];
+        if(cGV.I.sUIButton.cUIButtonComponent == null) {
+            cGV.I.QuitProcess("Error::UIButton Component is null");
+            return false;
+        }
+
+        for (index01 = 0; index01 < cGV.MAX_UIBUTTON_NUM; index01++) {
+            cGV.I.sUIButton.cUIButtonGameObject[index01] = cGV.I.sUIButton.cUIButtonDir.transform.GetChild(index01).gameObject;//오브젝트 번호순으로 찾고
+            cGV.I.sUIButton.cUIButtonComponent[index01] = cGV.I.sUIButton.cUIButtonGameObject[index01].transform.GetComponent<Button>();//오브젝트의 컴포넌트 찾고
+            cGV.I.sUIButton.cUIButtonGameObject[index01].SetActive(false);//컨트롤 할땐 오브젝트로
+        }
+
+        cGV.I.POINT = 0;
+
+        cGV.I.vClippingObjectName = "ClippingObject";
+        cGV.I.cClippingObject = GameObject.Find(cGV.I.vClippingObjectName);
         return true;
     }
     public bool Initialize_Character() {
@@ -242,9 +283,9 @@ public class cInit : MonoBehaviour{
             }
             cGV.I.sCharacter[index01].vDirection = 1;
             
-            cGV.I.sCharacter[index01].vLifePoint = 0;
-            cGV.I.sCharacter[index01].vRunSpeed = 200.0f;
-            cGV.I.sCharacter[index01].vJumpSpeed = 150.0f;
+            cGV.I.sCharacter[index01].vLifePoint = 10;
+            cGV.I.sCharacter[index01].vRunSpeed = 300.0f;
+            cGV.I.sCharacter[index01].vJumpSpeed = 250.0f;
             cGV.I.sCharacter[index01].vGravityScale = 40.0f;
             cGV.I.sCharacter[index01].vX = cGV.I.sCharacter[index01].cCollider.size.x / 2.0f;
             cGV.I.sCharacter[index01].vY = cGV.I.sCharacter[index01].cCollider.size.y / 2.0f;
@@ -252,6 +293,50 @@ public class cInit : MonoBehaviour{
             cGV.I.sCharacter[index01].cGameObject.SetActive(false);
         }
         return true;
+    }
+    public bool Initialize_Item() {
+        int index01, index02;
+
+        cGV.I.sITEM = null;
+        cGV.I.sITEM = new cGV.ITEM[cGV.MAX_ITEM_NUM];
+        cGV.I.vItemBomullName = "ItemBomull";
+        cGV.I.vItemStoneName = "ItemStone";
+        cGV.I.vItemHeartName = "ItemHeart";
+        cGV.I.sITEM[cGV.ITEM_BOMULL].cItemGameObject = null;
+        cGV.I.sITEM[cGV.ITEM_BOMULL].cItemGameObject = GameObject.Find(cGV.I.vItemBomullName);
+        cGV.I.sITEM[cGV.ITEM_STONE].cItemGameObject = null;
+        cGV.I.sITEM[cGV.ITEM_STONE].cItemGameObject = GameObject.Find(cGV.I.vItemStoneName);
+        cGV.I.sITEM[cGV.ITEM_HEART].cItemGameObject = null;
+        cGV.I.sITEM[cGV.ITEM_HEART].cItemGameObject = GameObject.Find(cGV.I.vItemHeartName);
+        for (index01 = 0; index01 < cGV.MAX_ITEM_NUM; index01++) {
+            cGV.I.sITEM[index01].cItemRigidBody = null;
+            cGV.I.sITEM[index01].cItemRigidBody = cGV.I.sITEM[index01].cItemGameObject.GetComponent<Rigidbody2D>();
+
+            cGV.I.sITEM[index01].cItemCollider = null;
+            cGV.I.sITEM[index01].cItemCollider = cGV.I.sITEM[index01].cItemGameObject.GetComponent<BoxCollider2D>();
+        }
+
+        cGV.I.sItem = null;
+        cGV.I.sItem = new cGV.ITEM[cGV.MAX_ITEM_NUM, cGV.MAX_ITEMS_NUM];
+
+        for (index01 = 0; index01 < cGV.MAX_ITEM_NUM; index01++) {
+            for (index02 = 0; index02 < cGV.MAX_ITEMS_NUM; index02++) {
+                cGV.I.sItem[index01, index02].cItemGameObject = Instantiate(cGV.I.sITEM[index01].cItemGameObject, cGV.I.sITEM[index01].cItemGameObject.transform);
+                cGV.I.sItem[index01, index02].cItemRigidBody = cGV.I.sItem[index01, index02].cItemGameObject.GetComponent<Rigidbody2D>();
+                cGV.I.sItem[index01, index02].cItemCollider = cGV.I.sItem[index01, index02].cItemGameObject.GetComponent<BoxCollider2D>();
+                cGV.I.sItem[index01, index02].vMessage = new int[cGV.MAX_MESSAGE_NUM, cGV.MAX_SUB_MESSAGE_SORT_NUM];
+                cGV.I.sItem[index01, index02].vItemSpeed = 100.0f;
+                cGV.I.sItem[index01, index02].vAttackPoint = 1;
+                cGV.I.sItem[index01, index02].vPoint = 1;
+                if(index01 == cGV.ITEM_STONE) {
+                    cGV.I.sItem[index01, index02].vIsStone = true;
+                }
+                else {
+                    cGV.I.sItem[index01, index02].vIsStone = false;
+                }
+            }
+        }
+            return true;
     }
     public bool Initialize_Main() {
         cGV.I.vApplicationState = cGV.APPS_MAIN;
@@ -268,10 +353,13 @@ public class cInit : MonoBehaviour{
     }
     public void Destroy_Character_Select() {
         cGV.I.vCheckApplicationState[cGV.APPS_CHSL] = false;
+        cGV.I.POINT = 0;
     }
     public bool Initialize_Game() {
         cGV.I.vApplicationState = cGV.APPS_GAME;
         cGV.I.vCheckApplicationState[cGV.APPS_GAME] = true;
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].vLifePoint = 10;
+        cGV.I.POINT = 0;
         
         return true;
     }
@@ -304,6 +392,7 @@ public class cInit : MonoBehaviour{
         }
         Application.targetFrameRate = cGV.vFPS;
         Initialize();
+        Initialize_Item();
         Initialize_Character();
     }
 }

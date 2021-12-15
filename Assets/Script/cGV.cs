@@ -35,10 +35,15 @@ public class cGV {
     public int vApplicationState;
     public bool[] vCheckApplicationState;
 
+    public int POINT;
+
+    public const int vWorldWidth = 640;
+    public const int vWorldHeight = 368;
     public string vCanvasName;
     public struct TEXT {
         public GameObject cTextDir;//중간 디렉토리용
         public GameObject[] cTextGameObject;//오브젝트용
+        public Text[] cText;
     }
     public TEXT sText;
 
@@ -48,7 +53,8 @@ public class cGV {
     public const int TEXT_CHSL_01 = 2;
     public const int TEXT_PAUS_01 = 3;
     public const int TEXT_GAOV_01 = 4;
-    public const int MAX_TEXT_NUM = 5;
+    public const int TEXT_SCORE = 5;
+    public const int MAX_TEXT_NUM = 6;
 
     //텍스트는 Canvas\Text\에서 순서대로 찾아 인식
     public struct BACKGROUND {
@@ -86,8 +92,21 @@ public class cGV {
     public const int BUTTON_07 = 6;
     public const int MAX_BUTTON_NUM = 7;
 
+    public struct UIBUTTON {
+        public GameObject cUIButtonDir;
+        public GameObject[] cUIButtonGameObject;
+        public Button[] cUIButtonComponent;
+    }
+    public string vUIButtonDirName;
+    public UIBUTTON sUIButton;
+    public const int UIB_LEFT = 0;
+    public const int UIB_RIGHT = 1;
+    public const int MAX_UIBUTTON_NUM = 2;
+
     public GameObject cCanvasGameObject;
 
+    public const int LEFT = -1;
+    public const int RIGHT = 1;
     public struct CHARACTER {
         public GameObject cGameObject;
         public Rigidbody2D cRigidBody;
@@ -106,7 +125,27 @@ public class cGV {
         public int[,] vMessage;
     }
 
+    public struct ITEM {
+        public GameObject cItemGameObject;
+        public Rigidbody2D cItemRigidBody;
+        public BoxCollider2D cItemCollider;
+        public float vItemSpeed;
+        public int[,] vMessage;
+        public int vAttackPoint;
+        public int vPoint;
+        public bool vIsStone;
+    }
+    public string vItemBomullName;
+    public string vItemStoneName;
+    public string vItemHeartName;
+    public const int ITEM_BOMULL = 0;
+    public const int ITEM_STONE = 1;
+    public const int ITEM_HEART = 2;
+    public const int MAX_ITEM_NUM = 3;
+    public const int MAX_ITEMS_NUM = 2;
 
+    public ITEM[,]sItem;
+    public ITEM[] sITEM;
     public CHARACTER[] sCharacter;
 
     public const int CHARACTER_MAN = 0;
@@ -135,12 +174,12 @@ public class cGV {
     public const int SUB_MESSAGE_TYPE_TARGET_1 = 4;
     public const int SUB_MESSAGE_TYPE_TARGET_2 = 5;
     public const int SUB_MESSAGE_TYPE_HIT = 6;
-    //public const int SUB_MESSAGE_TYPE_HIT_2 = 7;
     public const int SUB_MESSAGE_TYPE_HIT_END = 7;
-    public const int SUB_MESSAGE_TYPE_COLLISION = 8;
+    public const int SUB_MESSAGE_TYPE_OBTAIN = 8;
     public const int SUB_MESSAGE_TYPE_DEATH = 9;
-    public const int SUB_MESSAGE_TYPE_DEATH_END = 01;
+    public const int SUB_MESSAGE_TYPE_DEATH_END = 10;
     public const int SUB_MESSAGE_TYPE_RESURRECTION = 11;
+    
 
     public const int ERROR_VALUE = -1;
 

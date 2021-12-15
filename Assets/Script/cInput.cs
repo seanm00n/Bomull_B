@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class cInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class cInput : MonoBehaviour
 {
     public void CharacterSelectInputProcess() {
         int index01;
@@ -35,36 +35,41 @@ public class cInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    public bool inputLR = false;
-    public bool inputJump = false;
-    public float tValueX = 0.0f;
-    public float tValueY = 0.0f;
-    public Vector2 tVector2;
 
-    public void OnPointerDown(PointerEventData eventData) {
-        Debug.Log("KeyDown");
-        inputLR = true;
+    public bool inputL = false;
+    public bool inputR = false;
+    public bool inputJ = false;
+    public bool isJump = false;
+    public Vector2 tVector;
+
+    public void RButtonDown() {
+        inputR = true;
+        tVector.x = cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed * cGV.RIGHT;
+        tVector.y = 0.0f;
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector;
+        cGV.I.SetDirection(cGV.RIGHT,ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
+        cGV.I.SetAnimation(cGV.ANIS_RUN, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
     }
-    public void OnPointerUp(PointerEventData eventData) {
-        Debug.Log("KeyUp");
-        inputLR = false;
+    public void RButtonUp() {
+        inputR = false;
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = Vector2.zero;
+        cGV.I.SetAnimation(cGV.ANIS_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
     }
-    public void RButton() {
-        Debug.Log("R");
-        tValueX = 1.0f;
+    public void LButtonDown() {
+        inputL = true;
+        tVector.x = cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed * cGV.LEFT;
+        tVector.y = 0.0f;
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector;
+        cGV.I.SetDirection(cGV.LEFT, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
+        cGV.I.SetAnimation(cGV.ANIS_RUN, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
     }
-    public void LButton() {
-        Debug.Log("L");
-        tValueX = -1.0f;
+    public void LButtonUp() {
+        inputL = false;
+        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = Vector2.zero;
+        cGV.I.SetAnimation(cGV.ANIS_IDLE, ref cGV.I.sCharacter[cGV.I.vCharacterIndex]);
     }
     public void GameInputProcess() {
-        if (inputLR) {
-            this.tVector2.x = cGV.I.sCharacter[cGV.I.vCharacterIndex].vRunSpeed * tValueX;
-            this.tVector2.y = 0.0f;
-        } else {
-            
-        }
-        cGV.I.sCharacter[cGV.I.vCharacterIndex].cRigidBody.velocity = tVector2;
+                
     }
     void Update()
     {
@@ -72,10 +77,10 @@ public class cInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             case cGV.APPS_MAIN:
                 break;
             case cGV.APPS_CHSL:
-                this.CharacterSelectInputProcess();
+                CharacterSelectInputProcess();
                 break;
             case cGV.APPS_GAME:
-                this.GameInputProcess();
+                GameInputProcess();
                 break;
             case cGV.APPS_PAUS:
                 break;
