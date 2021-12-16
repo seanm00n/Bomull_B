@@ -16,7 +16,8 @@ The apk of this repo is not recommended to execute because it has incomplete cod
 - Bomull object does not disappear even after the score rises when Bomull Object collides with Character object
 - Sometimes, Character object bump into invisible Item objects
 - The Item object fall to the floor and disappear late
-- The Item object went out of the frame.
+- The Item object went out of the frame
+- Mobile resolution does not match
 
 # Preparing
 - BGM
