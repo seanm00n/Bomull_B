@@ -25,7 +25,7 @@ public class cInput : MonoBehaviour
 
         for (index01 = 0; index01 < cGV.MAX_CHARACTER_NUM; index01++) {
             if (tHit.collider.name == cGV.I.vCharacterName[index01]) {
-                cGV.I.vCharacterIndex = index01;//??
+                cGV.I.vCharacterIndex = index01;
                 cInit.I.Destroy_Character_Select();
             }
         }

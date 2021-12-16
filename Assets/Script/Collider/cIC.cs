@@ -24,7 +24,7 @@ public class cIC : MonoBehaviour
         }
 
     }
-    public void OnCollisionExit2D(Collision2D tCollision) {
+/*    public void OnCollisionExit2D(Collision2D tCollision) {
 
-    }
+    }*/
 }

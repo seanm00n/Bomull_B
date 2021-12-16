@@ -5,7 +5,6 @@ using UnityEngine;
 public class cLogic : MonoBehaviour
 {
     public void GameLogicProcessUI() {
-        //점수전광판 만들고 일정 점수 획득 시 게임 종료 및 게임점수 알려줌
         if(cGV.I.vApplicationState != cGV.APPS_GAME) {
             return;
         }

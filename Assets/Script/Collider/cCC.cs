@@ -19,7 +19,7 @@ public class cCC : MonoBehaviour
             }
         }
     }
-    public void OnCollisionExit2D(Collision2D tCollision) {
+/*    public void OnCollisionExit2D(Collision2D tCollision) {
 
-    }
+    }*/
 }
